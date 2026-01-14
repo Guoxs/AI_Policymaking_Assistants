@@ -44,8 +44,8 @@ if len(state_name) == 5:
         'llm_config': {
             'model': 'gpt-3.5-turbo-0125', # gpt-4o-2024-11-20，  
             #'model': 'llama-3-8b-instruct',  #"deekseek-r1" "gpt-4.1-mini"， "gemini-2.5-flash-thinking"， "llama-3-8b-instruct"
-            'base_url': "https://api.nuwaapi.com/v1", 
-            'api_key': "sk-LV9lxYyADUWvCrj6UK59WFR3anyn40nDyBJpK8iZv5Cb2bDa",
+            'base_url': "your-base-url",
+            'api_key': "your-api-key",
             'temperature': 0.7,
         },
     #     'llm_config': {
@@ -98,8 +98,8 @@ else:
         'llm_config': {
             'model': 'gpt-4.1-mini', # gpt-4o-2024-11-20 
             #'model': 'GPT-4.1-2025-04-14',
-            'base_url': "https://api.nuwaapi.com/v1", 
-            'api_key': "sk-LV9lxYyADUWvCrj6UK59WFR3anyn40nDyBJpK8iZv5Cb2bDa",
+            'base_url': "your-base-url",
+            'api_key': "your-api-key",
             'temperature': 0.7,
         },
 

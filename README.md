@@ -43,7 +43,7 @@ SIS_policy_analysis.py  SIS/TIS 策略的具体展示 在各个决策的轮次�
 figures: 现在5个州的运行结果 以及 20个州的结果
 
 
-###  20 States results### 
+###  20 States results
 
 ### **Fig.1 : Average Daily Active Case Rate for 20 states**
 ![Average Daily Active Case Rate](figures/US/US_all_states_active_case_ratio.png)
