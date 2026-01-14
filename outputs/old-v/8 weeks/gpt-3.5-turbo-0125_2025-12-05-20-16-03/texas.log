@@ -1,0 +1,232 @@
+2025-12-05 20:16:42,075 - texas - INFO - Region Agent texas - Iteration 2 / 5: Starting policy decision process.
+2025-12-05 20:16:42,076 - texas - INFO - Region user prompt: For texas, you will be given the following information:
+
+Epidemic and mobility information of this state are as follows:
+
+SEIRD parameters:
+- beta = 0.0533833721294343
+- alpha = 0.499150933195638
+- gamma = 0.03498043971024395
+- mu = 0.001099015264238674
+- delta = 1.728406131222558
+
+Current population composition:
+- S = 28938363
+- E = 4291
+- I = 1416
+- Q = 53440
+- R = 37105
+- D = 1768
+
+Other origin states:
+1. arizona
+   - Avg past 56-day population composition: S=7247742, E=962, I=297, Q=30109, R=2046, D=607
+   - Avg past 56-day inflow: arizona=12036859, mississippi=1968, new mexico=31082, texas=41900, virginia=4074
+
+2. mississippi
+   - Avg past 56-day population composition: S=2958638, E=3346, I=189, Q=4772, R=8015, D=438
+   - Avg past 56-day inflow: arizona=1651, mississippi=6006462, new mexico=1271, texas=30877, virginia=3594
+
+3. new mexico
+   - Avg past 56-day population composition: S=2070218, E=5864, I=3219, Q=5726, R=1407, D=89
+   - Avg past 56-day inflow: arizona=24039, mississippi=1997, new mexico=3482804, texas=137113, virginia=1167
+
+4. virginia
+   - Avg past 56-day population composition: S=8506696, E=750, I=205, Q=28122, R=1561, D=593
+   - Avg past 56-day inflow: arizona=4576, mississippi=3592, new mexico=1775, texas=20124, virginia=13951355
+
+
+ Ground truth daily average for next 56-day inbound by origin states; 
+From arizona: Inflow =48811.71;
+From mississippi: Inflow =58434.3;
+From new mexico: Inflow =125533.45;
+From virginia: Inflow =28208.3;
+
+Please output the recommended traffic control policy in the required JSON format.
+2025-12-05 20:16:59,058 - texas - INFO - Raw agent output:
+{
+  "arizona": {
+    "chosen_strategy": "S1_strict_first_then_relaxed",
+    "fractions": [0.05, 0.08, 0.09, 0.11, 0.14, 0.17, 0.18, 0.18],
+    "notes": "Arizona's past 56-day average shows a moderate exposed (E=962) and infected (I=297) population relative to its susceptible population (~7.25 million). The proportion of infected individuals (I/S) is approximately 0.000041, indicating a relatively low prevalence. However, Arizona's average daily inbound flow into Texas is quite high (48811.71), making it a significant source of imported infections if not controlled. The importation risk can be approximated as Flow * ft * (I/pop), where ft varies weekly by the chosen strategy. Given the moderate prevalence and high mobility, a strict-first-then-relaxed strategy (S1) is optimal. This approach enforces strict control during the initial weeks, reducing imported infections when the epidemic risk is potentially more impactful, then gradually relaxes restrictions to balance economic and social mobility. This balances minimizing imported infections with preserving essential mobility over time. The phased relaxation allows Texas to monitor and adjust based on epidemic trends while minimizing sudden economic impacts."
+  },
+  "mississippi": {
+    "chosen_strategy": "S1_strict_first_then_relaxed",
+    "fractions": [0.05, 0.08, 0.09, 0.11, 0.14, 0.17, 0.18, 0.18],
+    "notes": "Mississippi exhibits a relatively low infected population (I=189) but a notable exposed population (E=3346) compared to its susceptible population (~2.96 million). The infected proportion (I/S) is approximately 0.000064, slightly higher than Arizona's, suggesting moderate risk of infection importation. With a daily inbound flow of 58434.3 into Texas, the volume is substantial, increasing the potential importation risk. Choosing the strict-first-then-relaxed strategy (S1) helps to aggressively reduce the initial importation risk by imposing stricter controls when the exposed and infected populations might fuel transmission. Over time, as the risk potentially diminishes or as Texas's own epidemic state evolves, relaxing controls preserves essential mobility and economic activity. This strategy reflects a cautious approach suitable for Mississippi's moderate prevalence and high inbound flow, emphasizing early suppression of risk to protect Texas's population."
+  },
+  "new mexico": {
+    "chosen_strategy": "S2_relaxed_first_then_strict",
+    "fractions": [0.18, 0.18, 0.17, 0.14, 0.11, 0.09, 0.08, 0.05],
+    "notes": "New Mexico presents the highest infection prevalence among the origin states, with infected (I=3219) and exposed (E=5864) populations relative to a susceptible population of ~2.07 million. The infected proportion (I/S) is approximately 0.00155, significantly higher than other states. Additionally, New Mexico's inbound flow into Texas is large (125533.45 daily), making it the largest contributor to potential infection importation. Given this high risk, one might expect stricter controls initially. However, New Mexico's epidemic dynamics and potential socio-economic factors may warrant a different approach. The relaxed-first-then-strict strategy (S2) allows mobility initially to accommodate essential flow and economic interactions, but progressively tightens restrictions to reduce risk as more data on epidemic trends emerge or as Texas's own epidemic state changes. This phased tightening can also account for possible reporting delays or initial underestimation of risk. This strategy balances the high infection risk with the necessity to maintain some level of essential mobility early on while preparing for stronger controls if needed."
+  },
+  "virginia": {
+    "chosen_strategy": "S1_strict_first_then_relaxed",
+    "fractions": [0.05, 0.08, 0.09, 0.11, 0.14, 0.17, 0.18, 0.18],
+    "notes": "Virginia's epidemic profile shows a moderate infected population (I=205) and exposed (E=750) relative to a large susceptible population (~8.5 million), yielding a low infected proportion (I/S) of approximately 0.000024. Despite this low prevalence, Virginia's inbound flow into Texas is substantial at 28208.3 daily, meaning even a low prevalence can contribute to imported infections. Given the moderate risk and mobility volume, the strict-first-then-relaxed strategy (S1) is appropriate. Early strict control reduces the risk of initial imported infections, which is crucial for Texas's epidemic control, while progressively relaxing restrictions preserves essential economic and social mobility. This phased approach balances minimizing epidemic importation with maintaining critical connectivity between states."
+  },
+  "global_guidance": "The chosen strategies collectively prioritize early strict controls for origin states with moderate to low infection prevalence but significant mobility volumes (Arizona, Mississippi, Virginia). This approach minimizes the importation of infected individuals during critical initial weeks, protecting Texas's vulnerable population and healthcare capacity. For New Mexico, with the highest infection prevalence and largest inbound flow, a relaxed-first-then-strict strategy balances the necessity of essential mobility early on with progressively tightened controls to respond dynamically to evolving epidemic trends. Quantitatively, the imported infected individuals are proportional to the product of inbound flow, infection prevalence (I/population), and the weekly fraction ft that modulates mobility. By distributing control intensity over weeks and states, Texas can balance epidemic suppression with economic and social needs. Sensitivity analyses suggest that if infection prevalence or transmissibility (beta) increases, stricter and more prolonged controls would be necessary. Conversely, decreases in prevalence or improved local control could allow earlier relaxation. The phased strategies enable adaptive responses, allowing Texas to adjust policies as new data emerge, ensuring resilience against epidemic fluctuations while maintaining essential interstate mobility."
+}
+2025-12-05 20:16:59,059 - texas - INFO - Parsed PolicyResponse: policy={'arizona': [0.05, 0.08, 0.09, 0.11, 0.14, 0.17, 0.18, 0.18], 'mississippi': [0.05, 0.08, 0.09, 0.11, 0.14, 0.17, 0.18, 0.18], 'new mexico': [0.18, 0.18, 0.17, 0.14, 0.11, 0.09, 0.08, 0.05], 'virginia': [0.05, 0.08, 0.09, 0.11, 0.14, 0.17, 0.18, 0.18]} explanation="The chosen strategies collectively prioritize early strict controls for origin states with moderate to low infection prevalence but significant mobility volumes (Arizona, Mississippi, Virginia). This approach minimizes the importation of infected individuals during critical initial weeks, protecting Texas's vulnerable population and healthcare capacity. For New Mexico, with the highest infection prevalence and largest inbound flow, a relaxed-first-then-strict strategy balances the necessity of essential mobility early on with progressively tightened controls to respond dynamically to evolving epidemic trends. Quantitatively, the imported infected individuals are proportional to the product of inbound flow, infection prevalence (I/population), and the weekly fraction ft that modulates mobility. By distributing control intensity over weeks and states, Texas can balance epidemic suppression with economic and social needs. Sensitivity analyses suggest that if infection prevalence or transmissibility (beta) increases, stricter and more prolonged controls would be necessary. Conversely, decreases in prevalence or improved local control could allow earlier relaxation. The phased strategies enable adaptive responses, allowing Texas to adjust policies as new data emerge, ensuring resilience against epidemic fluctuations while maintaining essential interstate mobility."
+2025-12-05 20:17:52,342 - texas - INFO - Region Agent texas - Iteration 3 / 5: Starting policy decision process.
+2025-12-05 20:17:52,343 - texas - INFO - Region user prompt: For texas, you will be given the following information:
+
+Epidemic and mobility information of this state are as follows:
+
+SEIRD parameters:
+- beta = 0.0533833721294343
+- alpha = 0.499150933195638
+- gamma = 0.04654862677727008
+- mu = 0.001369917642989542
+- delta = 1.728406131222558
+
+Current population composition:
+- S = 28815517
+- E = 6070
+- I = 1873
+- Q = 86965
+- R = 230298
+- D = 7492
+
+Other origin states:
+1. arizona
+   - Avg past 56-day population composition: S=7224878, E=1555, I=499, Q=50664, R=7293, D=2134
+   - Avg past 56-day inflow: arizona=12481037, mississippi=2553, new mexico=38931, texas=53855, virginia=6343
+
+2. mississippi
+   - Avg past 56-day population composition: S=2931467, E=4725, I=270, Q=6796, R=27229, D=1297
+   - Avg past 56-day inflow: arizona=2446, mississippi=6421972, new mexico=1597, texas=36464, virginia=4488
+
+3. new mexico
+   - Avg past 56-day population composition: S=1970672, E=12753, I=6764, Q=12977, R=6908, D=430
+   - Avg past 56-day inflow: arizona=28058, mississippi=1580, new mexico=3696016, texas=152581, virginia=1667
+
+4. virginia
+   - Avg past 56-day population composition: S=8485771, E=964, I=255, Q=43622, R=4373, D=1638
+   - Avg past 56-day inflow: arizona=5930, mississippi=5308, new mexico=2228, texas=27746, virginia=15234185
+
+
+ Ground truth daily average for next 56-day inbound by origin states; 
+From arizona: Inflow =44315.54;
+From mississippi: Inflow =44212.09;
+From new mexico: Inflow =102924.27;
+From virginia: Inflow =26526.18;
+
+Please output the recommended traffic control policy in the required JSON format.
+2025-12-05 20:18:08,725 - texas - INFO - Parsed PolicyResponse: policy={'arizona': [0.05, 0.08, 0.09, 0.11, 0.14, 0.17, 0.18, 0.18], 'mississippi': [0.05, 0.08, 0.09, 0.11, 0.14, 0.17, 0.18, 0.18], 'new mexico': [0.18, 0.18, 0.17, 0.14, 0.11, 0.09, 0.08, 0.05], 'virginia': [0.05, 0.08, 0.09, 0.11, 0.14, 0.17, 0.18, 0.18]} explanation="The chosen strategies collectively aim to minimize cumulative imported infections and deaths in Texas by dynamically balancing strict controls and mobility preservation based on each origin state's epidemic risk and mobility contribution. States with moderate infection prevalence and significant inbound flows (Arizona, Mississippi, Virginia) adopt the 'S1_strict_first_then_relaxed' strategy, imposing stricter controls early to reduce initial importation risk when local Texas epidemic burden is still sensitive to external seeding. This approach mitigates early importation spikes, reducing secondary transmission and mortality downstream. New Mexico, with the highest infection prevalence and inflow, employs 'S2_relaxed_first_then_strict' to initially preserve essential mobility and supply chains critical for Texas' economy and healthcare logistics, while progressively tightening controls to mitigate sustained importation risk. This staggered approach reflects a nuanced trade-off between epidemic control and socio-economic needs. Quantitatively, this risk-balancing strategy leverages the infection prevalence ratios (I/pop) and flow volumes to allocate inbound traffic fractions optimally across weeks, minimizing expected imported infected individuals = Flow * ft * (I/pop). Sensitivity to prevalence or transmission rate (beta) changes would shift the optimal balance; higher beta or prevalence would favor more frontloaded restrictions (S1), while lower risk or greater mobility needs might justify relaxed early periods (S2 or S5). Coordinated cross-state strategies reduce overall epidemic pressure on Texas by smoothing importation risks temporally and geographically, enabling targeted interventions without blanket restrictions. This approach enhances epidemic resilience while maintaining essential mobility and economic stability."
+2025-12-05 20:19:08,638 - texas - INFO - Region Agent texas - Iteration 4 / 5: Starting policy decision process.
+2025-12-05 20:19:08,640 - texas - INFO - Region user prompt: For texas, you will be given the following information:
+
+Epidemic and mobility information of this state are as follows:
+
+SEIRD parameters:
+- beta = 0.0533833721294343
+- alpha = 0.499150933195638
+- gamma = 0.04698973710209798
+- mu = 0.0010276586204300978
+- delta = 1.728406131222558
+
+Current population composition:
+- S = 28646069
+- E = 8888
+- I = 2795
+- Q = 125667
+- R = 518582
+- D = 15036
+
+Other origin states:
+1. arizona
+   - Avg past 56-day population composition: S=7184500, E=2618, I=834, Q=89594, R=16606, D=4157
+   - Avg past 56-day inflow: arizona=12511344, mississippi=2029, new mexico=30901, texas=44954, virginia=5297
+
+2. mississippi
+   - Avg past 56-day population composition: S=2894994, E=6473, I=371, Q=9322, R=53267, D=2272
+   - Avg past 56-day inflow: arizona=1827, mississippi=6453406, new mexico=1264, texas=30379, virginia=3719
+
+3. new mexico
+   - Avg past 56-day population composition: S=1804622, E=22214, I=12037, Q=22242, R=16255, D=990
+   - Avg past 56-day inflow: arizona=26987, mississippi=1229, new mexico=3595845, texas=145428, virginia=1339
+
+4. virginia
+   - Avg past 56-day population composition: S=8453576, E=1494, I=396, Q=67576, R=8717, D=2656
+   - Avg past 56-day inflow: arizona=6079, mississippi=4728, new mexico=2237, texas=25805, virginia=14990796
+
+
+ Ground truth daily average for next 56-day inbound by origin states; 
+From arizona: Inflow =48966.86;
+From mississippi: Inflow =37029.77;
+From new mexico: Inflow =86353.89;
+From virginia: Inflow =22150.11;
+
+Please output the recommended traffic control policy in the required JSON format.
+2025-12-05 20:19:21,938 - texas - INFO - Parsed PolicyResponse: policy={'arizona': [0.05, 0.08, 0.09, 0.11, 0.14, 0.17, 0.18, 0.18], 'mississippi': [0.05, 0.08, 0.09, 0.11, 0.14, 0.17, 0.18, 0.18], 'new mexico': [0.05, 0.08, 0.09, 0.11, 0.14, 0.17, 0.18, 0.18], 'virginia': [0.16, 0.14, 0.1, 0.1, 0.1, 0.1, 0.14, 0.16]} explanation="The selection of traffic control strategies for inbound flows to Texas from Arizona, Mississippi, New Mexico, and Virginia collectively aims to minimize imported infections while preserving essential mobility. High-risk states with elevated infection prevalence and/or large inbound flows, notably New Mexico, Arizona, and Mississippi, are assigned the 'S1_strict_first_then_relaxed' strategy to impose strong early restrictions, mitigating immediate epidemic risks. This early strict control is critical as imported infections can catalyze local outbreaks, increasing cumulative cases and deaths. Virginia, with lower prevalence and moderate flow, is managed with a 'mid-strict' strategy that balances the need for control and mobility, acknowledging its comparatively lower importation risk. This cross-state coordinated approach distributes inbound flow restrictions temporally and spatially, reducing simultaneous high-risk imports and allowing Texas to adapt dynamically to changing epidemic conditions. Quantitatively, the imported infected individuals scale with inbound flow, fraction allocated, and infection prevalence (imported_infected ~ flow * fraction * (I/S)). By front-loading restrictions for higher-risk origins, the policy reduces cumulative imported infections during critical periods, decreasing secondary transmissions and healthcare burden. Sensitivity to prevalence and transmission rate (beta) underscores the importance of early strict controls—if prevalence or beta increases, the chosen strategies provide a buffer against rapid epidemic amplification. Conversely, if prevalence declines, gradual relaxation preserves economic activity. This risk-adaptive, cooperative framework reflects epidemiological prudence and practical mobility needs, optimizing public health outcomes in Texas over the next 8 weeks."
+2025-12-05 20:20:23,769 - texas - INFO - Region Agent texas - Iteration 5 / 5: Starting policy decision process.
+2025-12-05 20:20:23,770 - texas - INFO - Region user prompt: For texas, you will be given the following information:
+
+Epidemic and mobility information of this state are as follows:
+
+SEIRD parameters:
+- beta = 0.0533833721294343
+- alpha = 0.499150933195638
+- gamma = 0.047002380516515584
+- mu = 0.0004639454891282678
+- delta = 1.728406131222558
+
+Current population composition:
+- S = 28424497
+- E = 23293
+- I = 8151
+- Q = 250614
+- R = 900381
+- D = 20706
+
+Other origin states:
+1. arizona
+   - Avg past 56-day population composition: S=7117187, E=4262, I=1368, Q=144618, R=32275, D=5652
+   - Avg past 56-day inflow: arizona=13183241, mississippi=2108, new mexico=31259, texas=47687, virginia=4746
+
+2. mississippi
+   - Avg past 56-day population composition: S=2837782, E=11067, I=636, Q=16004, R=94772, D=3265
+   - Avg past 56-day inflow: arizona=2024, mississippi=6638024, new mexico=1282, texas=29664, virginia=3461
+
+3. new mexico
+   - Avg past 56-day population composition: S=1534582, E=33517, I=18414, Q=35034, R=31447, D=1648
+   - Avg past 56-day inflow: arizona=36894, mississippi=1204, new mexico=3551692, texas=139646, virginia=1603
+
+4. virginia
+   - Avg past 56-day population composition: S=8402833, E=2378, I=630, Q=108731, R=15601, D=3407
+   - Avg past 56-day inflow: arizona=6341, mississippi=4266, new mexico=1891, texas=24566, virginia=15358129
+
+
+ Ground truth daily average for next 56-day inbound by origin states; 
+From arizona: Inflow =53497.93;
+From mississippi: Inflow =42979.82;
+From new mexico: Inflow =82355.14;
+From virginia: Inflow =23034.11;
+
+Please output the recommended traffic control policy in the required JSON format.
+2025-12-05 20:20:37,441 - texas - INFO - Raw agent output:
+{
+  "arizona": {
+    "chosen_strategy": "S1_strict_first_then_relaxed",
+    "fractions": [0.05, 0.08, 0.09, 0.11, 0.14, 0.17, 0.18, 0.18],
+    "notes": "Arizona presents a moderately high population with relatively low infection prevalence: I=1368 out of ~7.1 million susceptible, yielding a low I/pop ratio (~0.00019). However, the exposed count E=4262 is non-negligible and Q=144618 confirmed cases indicate ongoing transmission. The average daily inflow into Texas from Arizona is high (~53,498), which poses a risk of imported infections. Using the formula imported_infected ~ Flow * ft * (I/pop), even a small prevalence combined with large flow can contribute to imported cases. Hence, a stricter control early on (low ft values) is justified to quickly reduce infection importation risk in the critical first weeks, allowing gradual relaxation as the epidemic risk presumably declines or control measures take effect. The S1 pattern (strict first then relaxed) balances epidemic risk reduction with eventual mobility restoration, minimizing overall imported infections while preserving essential mobility over time."
+  },
+  "mississippi": {
+    "chosen_strategy": "S1_strict_first_then_relaxed",
+    "fractions": [0.05, 0.08, 0.09, 0.11, 0.14, 0.17, 0.18, 0.18],
+    "notes": "Mississippi has a smaller population (~2.8 million susceptible) but a higher exposed proportion (E=11067) relative to infected (I=636), suggesting a potential growth in infections soon. The infected to population ratio is low (~0.00022), but the exposed count signals latent transmission risk. The average daily inflow from Mississippi into Texas is ~42,980, a significant number that could facilitate spread if unchecked. Given this, a strategy emphasizing early strict controls to curb infection importation is warranted. The S1 pattern's front-loaded strictness helps mitigate immediate risk from exposed and infected travelers, while allowing relaxation in later weeks to balance economic and social mobility needs."
+  },
+  "new mexico": {
+    "chosen_strategy": "S2_relaxed_first_then_strict",
+    "fractions": [0.18, 0.18, 0.17, 0.14, 0.11, 0.09, 0.08, 0.05],
+    "notes": "New Mexico exhibits a relatively high infected count (I=18414) and exposed (E=33517) compared to its population size (~1.5 million susceptible), indicating a substantial ongoing epidemic. The infected ratio (~0.012) is notably higher than other states, increasing risk of importation. However, the inbound flow from New Mexico to Texas (~82,355) is the largest among origin states, so an immediate strict lockdown might heavily disrupt essential mobility. Given this, a relaxed-first strategy (S2) accommodates initial mobility needs while progressively tightening restrictions as epidemic risk persists, aiming to reduce imported infections in later weeks when risk is clearer. This approach balances high prevalence with economic and social considerations."
+  },
+  "virginia": {
+    "chosen_strategy": "S1_strict_first_then_relaxed",
+    "fractions": [0.05, 0.08, 0.09, 0.11, 0.14, 0.17, 0.18, 0.18],
+    "notes": "Virginia's infected count is low (I=630) relative to a large susceptible population (~8.4 million), and exposed cases are also low (E=2378), suggesting lower immediate risk of importation. However, the confirmed cases Q=108731 indicate active surveillance and reporting. The inbound flow (~23,034) is moderate. Given the moderate risk but desire to minimize any imported infections, an early strict control approach (S1) is prudent to protect Texas from potential new cases, especially in the early critical weeks, while progressively relaxing to restore normal mobility. This balance ensures minimal imported infection risk while supporting eventual mobility normalization."
+  },
+  "global_guidance": "The chosen strategies collectively aim to minimize imported infections and deaths in Texas by balancing epidemic risk and essential mobility across origin states. States with moderate to high prevalence and significant flows (Arizona, Mississippi, Virginia) are assigned the S1 pattern, prioritizing strict controls early to reduce immediate risk of importation. New Mexico, with the highest infected prevalence and largest flow, is assigned the S2 relaxed-first-then-strict pattern to mitigate severe mobility disruption initially but tighten controls as risk is realized. This cooperative allocation balances importation risk across weeks and states, reducing overall epidemic burden. The quantitative infection-import logic using infected ratios and flow magnitudes guides this balance, ensuring that states contributing higher infection risk face proportionally stricter control timing. Sensitivity analysis suggests that if prevalence or transmission parameters (beta) increase, stricter early controls become more critical, favoring S1 deployment. Conversely, lower prevalence or beta could allow more uniform or relaxed patterns without increasing risks. This dynamic policy approach leverages temporal control variation to optimize epidemic suppression while preserving economic and social mobility essential for Texas's sustained resilience."
+}
+2025-12-05 20:20:37,442 - texas - INFO - Parsed PolicyResponse: policy={'arizona': [0.05, 0.08, 0.09, 0.11, 0.14, 0.17, 0.18, 0.18], 'mississippi': [0.05, 0.08, 0.09, 0.11, 0.14, 0.17, 0.18, 0.18], 'new mexico': [0.18, 0.18, 0.17, 0.14, 0.11, 0.09, 0.08, 0.05], 'virginia': [0.05, 0.08, 0.09, 0.11, 0.14, 0.17, 0.18, 0.18]} explanation="The chosen strategies collectively aim to minimize imported infections and deaths in Texas by balancing epidemic risk and essential mobility across origin states. States with moderate to high prevalence and significant flows (Arizona, Mississippi, Virginia) are assigned the S1 pattern, prioritizing strict controls early to reduce immediate risk of importation. New Mexico, with the highest infected prevalence and largest flow, is assigned the S2 relaxed-first-then-strict pattern to mitigate severe mobility disruption initially but tighten controls as risk is realized. This cooperative allocation balances importation risk across weeks and states, reducing overall epidemic burden. The quantitative infection-import logic using infected ratios and flow magnitudes guides this balance, ensuring that states contributing higher infection risk face proportionally stricter control timing. Sensitivity analysis suggests that if prevalence or transmission parameters (beta) increase, stricter early controls become more critical, favoring S1 deployment. Conversely, lower prevalence or beta could allow more uniform or relaxed patterns without increasing risks. This dynamic policy approach leverages temporal control variation to optimize epidemic suppression while preserving economic and social mobility essential for Texas's sustained resilience."

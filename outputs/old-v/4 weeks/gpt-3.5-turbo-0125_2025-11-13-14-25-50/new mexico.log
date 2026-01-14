@@ -1,0 +1,1024 @@
+2025-11-13 14:26:00,788 - new mexico - INFO - Region Agent new mexico - Iteration 2 / 9: Starting policy decision process.
+2025-11-13 14:26:00,788 - new mexico - INFO - Region user prompt: Epidemic and mobility information are as follows:
+
+SEIRD parameters:
+- beta = 0.1786540919187466
+- alpha = 0.1000046802933765
+- gamma = 0.010025755970075654
+- mu = 0.000538047741964765
+
+- delta = 0.1007309319859009
+
+Current population composition:
+- S = 2074779
+- E = 5545
+- I = 2970
+- Q = 5389
+- R = 1156
+- D = 74
+
+Neighboring regions:
+1. arizona
+   - Avg past 28-day population composition: S=7252157, E=956, I=289, Q=26740, R=1033, D=325
+   - Avg past 28-day inflow: arizona=11581706, mississippi=1587, new mexico=27302, texas=34213, virginia=3730
+
+2. mississippi
+   - Avg past 28-day population composition: S=2964260, E=3037, I=169, Q=4460, R=4063, D=259
+   - Avg past 28-day inflow: arizona=1477, mississippi=5741152, new mexico=1204, texas=25706, virginia=3238
+
+3. texas
+   - Avg past 28-day population composition: S=28977518, E=1279, I=400, Q=18007, R=3688, D=462
+   - Avg past 28-day inflow: arizona=28055, mississippi=31794, new mexico=72592, texas=50468030, virginia=15459
+
+4. virginia
+   - Avg past 28-day population composition: S=8510868, E=817, I=230, Q=24929, R=1002, D=352
+   - Avg past 28-day inflow: arizona=3488, mississippi=2892, new mexico=1565, texas=16348, virginia=13515642
+
+   - Ground truth next 28--day inbound by origin (total & daily fractions); fractions sum to 1 per origin when total>0):
+From arizona: total=805763; daily_fraction=[Day1:0.0240, Day2:0.0263, Day3:0.0272, Day4:0.0279, Day5:0.0293, Day6:0.0311, Day7:0.0334, Day8:0.0302, Day9:0.0298, Day10:0.0291, Day11:0.0311, Day12:0.0360, Day13:0.0471, Day14:0.0464, Day15:0.0450, Day16:0.0411, Day17:0.0356, Day18:0.0319, Day19:0.0385, Day20:0.0483, Day21:0.0502, Day22:0.0413, Day23:0.0355, Day24:0.0324, Day25:0.0313, Day26:0.0344, Day27:0.0426, Day28:0.0430]
+From mississippi: total=61121; daily_fraction=[Day1:0.0309, Day2:0.0352, Day3:0.0388, Day4:0.0381, Day5:0.0400, Day6:0.0391, Day7:0.0288, Day8:0.0320, Day9:0.0322, Day10:0.0298, Day11:0.0348, Day12:0.0412, Day13:0.0402, Day14:0.0309, Day15:0.0338, Day16:0.0363, Day17:0.0343, Day18:0.0369, Day19:0.0409, Day20:0.0479, Day21:0.0422, Day22:0.0300, Day23:0.0292, Day24:0.0343, Day25:0.0350, Day26:0.0368, Day27:0.0368, Day28:0.0338]
+From texas: total=4270124; daily_fraction=[Day1:0.0282, Day2:0.0287, Day3:0.0290, Day4:0.0300, Day5:0.0311, Day6:0.0367, Day7:0.0384, Day8:0.0292, Day9:0.0305, Day10:0.0300, Day11:0.0331, Day12:0.0361, Day13:0.0436, Day14:0.0451, Day15:0.0385, Day16:0.0356, Day17:0.0373, Day18:0.0356, Day19:0.0381, Day20:0.0417, Day21:0.0439, Day22:0.0342, Day23:0.0344, Day24:0.0336, Day25:0.0339, Day26:0.0375, Day27:0.0422, Day28:0.0438]
+From virginia: total=33139; daily_fraction=[Day1:0.0470, Day2:0.0301, Day3:0.0326, Day4:0.0366, Day5:0.0277, Day6:0.0346, Day7:0.0373, Day8:0.0326, Day9:0.0310, Day10:0.0342, Day11:0.0297, Day12:0.0327, Day13:0.0490, Day14:0.0439, Day15:0.0401, Day16:0.0298, Day17:0.0242, Day18:0.0357, Day19:0.0420, Day20:0.0312, Day21:0.0432, Day22:0.0345, Day23:0.0297, Day24:0.0346, Day25:0.0381, Day26:0.0306, Day27:0.0434, Day28:0.0440]
+
+Please output the recommended traffic control policy in the required JSON format.
+2025-11-13 14:26:05,778 - new mexico - INFO - Raw agent output:
+{
+  "arizona": {
+      "fractions": [0.15, 0.25, 0.35, 0.25],
+      "notes": "To minimize disease spread, stricter traffic control is advised in the first week (f1=0.15) to reduce the initial influx. The control is then gradually relaxed over the following weeks to allow more mobility."
+    },
+  "mississippi": {
+      "fractions": [0.25, 0.2, 0.3, 0.25],
+      "notes": "Stricter control is recommended in the first and third week (f1=0.25, f3=0.3) to initially reduce the inflow and then maintain lower levels. This approach aims to stagger the flow and prevent sudden spikes in cases."
+    },
+  "texas": {
+      "fractions": [0.2, 0.2, 0.4, 0.2],
+      "notes": "A balanced approach is suggested with moderate control in the first two weeks (f1=0.2, f2=0.2) to manage the inflow. Subsequently, a higher control in the third week (f3=0.4) can help maintain stability before easing restrictions."
+    },
+  "virginia": {
+      "fractions": [0.3, 0.2, 0.2, 0.3],
+      "notes": "To prevent sudden surges in cases, a higher control in the first and last week (f1=0.3, f4=0.3) is recommended. This strategy aims to limit the initial and final inflow, with moderate control in the middle weeks."
+    },
+  "global_guidance": "The traffic control policy aims to strategically manage the inflow from neighboring states by implementing varying levels of restrictions over the four weeks. This approach helps in controlling the spread of the disease while balancing the economic and social needs of the region."
+}
+2025-11-13 14:26:05,778 - new mexico - INFO - Parsed PolicyResponse: policy={'arizona': [0.15, 0.25, 0.35, 0.25], 'mississippi': [0.25, 0.2, 0.3, 0.25], 'texas': [0.2, 0.2, 0.4, 0.2], 'virginia': [0.3, 0.2, 0.2, 0.3]} explanation='The traffic control policy aims to strategically manage the inflow from neighboring states by implementing varying levels of restrictions over the four weeks. This approach helps in controlling the spread of the disease while balancing the economic and social needs of the region.'
+2025-11-13 14:26:21,271 - new mexico - INFO - Region Agent new mexico - Iteration 3 / 9: Starting policy decision process.
+2025-11-13 14:26:21,272 - new mexico - INFO - Region user prompt: Epidemic and mobility information are as follows:
+
+SEIRD parameters:
+- beta = 0.1786540919187466
+- alpha = 0.1000046802933765
+- gamma = 0.010025897271788303
+- mu = 0.0006172049360937379
+
+- delta = 0.1007309319859009
+
+Current population composition:
+- S = 2034106
+- E = 10416
+- I = 5563
+- Q = 10265
+- R = 3366
+- D = 202
+
+Neighboring regions:
+1. arizona
+   - Avg past 28-day population composition: S=7243261, E=973, I=306, Q=33863, R=3074, D=893
+   - Avg past 28-day inflow: arizona=12492011, mississippi=2394, new mexico=35975, texas=48795, virginia=4504
+
+2. mississippi
+   - Avg past 28-day population composition: S=2953039, E=3644, I=208, Q=5061, R=11951, D=617
+   - Avg past 28-day inflow: arizona=1810, mississippi=6271773, new mexico=1336, texas=34540, virginia=3947
+
+3. texas
+   - Avg past 28-day population composition: S=28955425, E=3001, I=969, Q=40202, R=18892, D=1145
+   - Avg past 28-day inflow: arizona=40557, mississippi=45485, new mexico=92170, texas=55401941, virginia=19747
+
+4. virginia
+   - Avg past 28-day population composition: S=8502538, E=681, I=178, Q=31196, R=2121, D=834
+   - Avg past 28-day inflow: arizona=5192, mississippi=4250, new mexico=2048, texas=22360, virginia=14387068
+
+   - Ground truth next 28--day inbound by origin (total & daily fractions); fractions sum to 1 per origin when total>0):
+From arizona: total=859014; daily_fraction=[Day1:0.0366, Day2:0.0338, Day3:0.0320, Day4:0.0320, Day5:0.0343, Day6:0.0434, Day7:0.0477, Day8:0.0419, Day9:0.0345, Day10:0.0334, Day11:0.0349, Day12:0.0347, Day13:0.0369, Day14:0.0435, Day15:0.0363, Day16:0.0327, Day17:0.0296, Day18:0.0320, Day19:0.0357, Day20:0.0401, Day21:0.0386, Day22:0.0396, Day23:0.0340, Day24:0.0307, Day25:0.0303, Day26:0.0344, Day27:0.0350, Day28:0.0315]
+From mississippi: total=48192; daily_fraction=[Day1:0.0362, Day2:0.0418, Day3:0.0540, Day4:0.0390, Day5:0.0355, Day6:0.0417, Day7:0.0323, Day8:0.0365, Day9:0.0317, Day10:0.0392, Day11:0.0352, Day12:0.0435, Day13:0.0442, Day14:0.0417, Day15:0.0364, Day16:0.0350, Day17:0.0376, Day18:0.0278, Day19:0.0319, Day20:0.0278, Day21:0.0232, Day22:0.0316, Day23:0.0310, Day24:0.0293, Day25:0.0347, Day26:0.0303, Day27:0.0324, Day28:0.0385]
+From texas: total=4513293; daily_fraction=[Day1:0.0352, Day2:0.0353, Day3:0.0334, Day4:0.0307, Day5:0.0327, Day6:0.0367, Day7:0.0414, Day8:0.0338, Day9:0.0313, Day10:0.0307, Day11:0.0326, Day12:0.0378, Day13:0.0418, Day14:0.0471, Day15:0.0365, Day16:0.0345, Day17:0.0342, Day18:0.0338, Day19:0.0376, Day20:0.0390, Day21:0.0385, Day22:0.0357, Day23:0.0341, Day24:0.0336, Day25:0.0329, Day26:0.0359, Day27:0.0409, Day28:0.0322]
+From virginia: total=42542; daily_fraction=[Day1:0.0317, Day2:0.0363, Day3:0.0413, Day4:0.0334, Day5:0.0305, Day6:0.0345, Day7:0.0346, Day8:0.0225, Day9:0.0247, Day10:0.0263, Day11:0.0319, Day12:0.0392, Day13:0.0347, Day14:0.0308, Day15:0.0250, Day16:0.0280, Day17:0.0314, Day18:0.0475, Day19:0.0517, Day20:0.0416, Day21:0.0429, Day22:0.0408, Day23:0.0488, Day24:0.0440, Day25:0.0337, Day26:0.0303, Day27:0.0350, Day28:0.0468]
+
+Please output the recommended traffic control policy in the required JSON format.
+2025-11-13 14:26:24,567 - new mexico - INFO - Raw agent output:
+{
+  "arizona": {
+    "fractions": [0.25, 0.25, 0.25, 0.25],
+    "notes": "Equal traffic control measures are proposed for all 4 weeks to ensure a consistent approach in reducing inbound travel from Arizona."
+  },
+  "mississippi": {
+    "fractions": [0.25, 0.2, 0.2, 0.35],
+    "notes": "A slightly stricter control is recommended in Week 2 to reduce the influx of travelers from Mississippi, followed by a gradual relaxation in the subsequent weeks."
+  },
+  "texas": {
+    "fractions": [0.15, 0.2, 0.3, 0.35],
+    "notes": "A stricter control is advised in Week 1 to significantly reduce inbound traffic from Texas, with a gradual relaxation in the following weeks to balance the impact on mobility."
+  },
+  "virginia": {
+    "fractions": [0.2, 0.15, 0.15, 0.5],
+    "notes": "A more stringent control is proposed in Week 4 to limit the movement of individuals from Virginia, while allowing for a moderate reduction in the earlier weeks to manage the flow effectively."
+  },
+  "global_guidance": "Considering the epidemiological parameters and current state composition, a varied approach is recommended for different neighboring states to strategically reduce inbound traffic over the next 4 weeks, aiming to minimize the spread of the disease in New Mexico."
+}
+2025-11-13 14:26:24,567 - new mexico - INFO - Parsed PolicyResponse: policy={'arizona': [0.25, 0.25, 0.25, 0.25], 'mississippi': [0.25, 0.2, 0.2, 0.35], 'texas': [0.15000000000000002, 0.20000000000000004, 0.30000000000000004, 0.3499999999999998], 'virginia': [0.2, 0.15, 0.15, 0.5]} explanation='Considering the epidemiological parameters and current state composition, a varied approach is recommended for different neighboring states to strategically reduce inbound traffic over the next 4 weeks, aiming to minimize the spread of the disease in New Mexico.'
+2025-11-13 14:26:40,966 - new mexico - INFO - Region Agent new mexico - Iteration 4 / 9: Starting policy decision process.
+2025-11-13 14:26:40,967 - new mexico - INFO - Region user prompt: Epidemic and mobility information are as follows:
+
+SEIRD parameters:
+- beta = 0.1786540919187466
+- alpha = 0.1000046802933765
+- gamma = 0.010026038573500878
+- mu = 0.0006500793601189748
+
+- delta = 0.1007309319859009
+
+Current population composition:
+- S = 1976938
+- E = 11104
+- I = 5864
+- Q = 11484
+- R = 6480
+- D = 403
+
+Neighboring regions:
+1. arizona
+   - Avg past 28-day population composition: S=7231888, E=1352, I=435, Q=43995, R=5682, D=1681
+   - Avg past 28-day inflow: arizona=12709425, mississippi=2379, new mexico=39695, texas=56253, virginia=6084
+
+2. mississippi
+   - Avg past 28-day population composition: S=2939985, E=4160, I=238, Q=5916, R=21169, D=1035
+   - Avg past 28-day inflow: arizona=2608, mississippi=6484167, new mexico=1559, texas=36652, virginia=4547
+
+3. texas
+   - Avg past 28-day population composition: S=28916524, E=4619, I=1511, Q=59105, R=68326, D=2704
+   - Avg past 28-day inflow: arizona=50300, mississippi=53609, new mexico=109515, texas=57700986, virginia=25867
+
+4. virginia
+   - Avg past 28-day population composition: S=8492236, E=850, I=224, Q=38610, R=3508, D=1361
+   - Avg past 28-day inflow: arizona=5845, mississippi=5152, new mexico=2165, texas=24421, virginia=15329464
+
+   - Ground truth next 28--day inbound by origin (total & daily fractions); fractions sum to 1 per origin when total>0):
+From arizona: total=712306; daily_fraction=[Day1:0.0380, Day2:0.0371, Day3:0.0328, Day4:0.0351, Day5:0.0372, Day6:0.0413, Day7:0.0381, Day8:0.0335, Day9:0.0340, Day10:0.0320, Day11:0.0336, Day12:0.0346, Day13:0.0377, Day14:0.0333, Day15:0.0334, Day16:0.0326, Day17:0.0321, Day18:0.0371, Day19:0.0391, Day20:0.0413, Day21:0.0372, Day22:0.0337, Day23:0.0343, Day24:0.0331, Day25:0.0345, Day26:0.0351, Day27:0.0420, Day28:0.0361]
+From mississippi: total=40356; daily_fraction=[Day1:0.0343, Day2:0.0333, Day3:0.0385, Day4:0.0401, Day5:0.0449, Day6:0.0429, Day7:0.0332, Day8:0.0462, Day9:0.0393, Day10:0.0377, Day11:0.0316, Day12:0.0332, Day13:0.0494, Day14:0.0404, Day15:0.0251, Day16:0.0248, Day17:0.0295, Day18:0.0305, Day19:0.0314, Day20:0.0287, Day21:0.0313, Day22:0.0320, Day23:0.0360, Day24:0.0344, Day25:0.0332, Day26:0.0397, Day27:0.0430, Day28:0.0351]
+From texas: total=4031301; daily_fraction=[Day1:0.0347, Day2:0.0364, Day3:0.0349, Day4:0.0354, Day5:0.0359, Day6:0.0401, Day7:0.0388, Day8:0.0313, Day9:0.0325, Day10:0.0317, Day11:0.0324, Day12:0.0352, Day13:0.0413, Day14:0.0414, Day15:0.0336, Day16:0.0337, Day17:0.0325, Day18:0.0332, Day19:0.0351, Day20:0.0406, Day21:0.0414, Day22:0.0344, Day23:0.0335, Day24:0.0319, Day25:0.0333, Day26:0.0350, Day27:0.0397, Day28:0.0402]
+From virginia: total=50880; daily_fraction=[Day1:0.0384, Day2:0.0368, Day3:0.0257, Day4:0.0234, Day5:0.0286, Day6:0.0353, Day7:0.0218, Day8:0.0339, Day9:0.0359, Day10:0.0326, Day11:0.0350, Day12:0.0496, Day13:0.0360, Day14:0.0370, Day15:0.0352, Day16:0.0403, Day17:0.0399, Day18:0.0420, Day19:0.0355, Day20:0.0438, Day21:0.0398, Day22:0.0374, Day23:0.0320, Day24:0.0341, Day25:0.0401, Day26:0.0351, Day27:0.0386, Day28:0.0359]
+
+Please output the recommended traffic control policy in the required JSON format.
+2025-11-13 14:26:45,502 - new mexico - INFO - Raw agent output:
+{
+  "arizona": {
+      "fractions": [0.25, 0.25, 0.25, 0.25],
+      "notes": "Equal traffic control measures are applied for all 4 weeks to ensure a consistent approach to reduce inbound traffic and limit potential spread of the disease."
+    },
+  "mississippi": {
+      "fractions": [0.30, 0.20, 0.25, 0.25],
+      "notes": "Initially, a stricter control is implemented in Week 1 to reduce incoming traffic significantly. Then, the control is slightly relaxed in Week 2 and maintained in Weeks 3 and 4 to manage the flow."
+    },
+  "texas": {
+      "fractions": [0.15, 0.20, 0.40, 0.25],
+      "notes": "A moderate control is applied in Week 1 to reduce the influx gradually. Control is further relaxed in Week 2, followed by a significant increase in Week 3 to manage the traffic flow. Week 4 maintains a moderate control level."
+    },
+  "virginia": {
+      "fractions": [0.20, 0.25, 0.15, 0.40],
+      "notes": "Week 1 starts with a moderate control to decrease the traffic. In Week 2, control is slightly increased to manage the flow better. Week 3 sees a reduction in control, followed by a significant control increase in Week 4 to maintain safety measures."
+    },
+  "global_guidance": "The recommended strategy involves a combination of strict and moderate traffic control measures across the neighboring states over the 4-week period. By initially reducing traffic, gradually adjusting control, and then managing the flow effectively, the aim is to minimize the risk of disease spread while balancing essential travel needs."
+}
+2025-11-13 14:26:45,502 - new mexico - INFO - Parsed PolicyResponse: policy={'arizona': [0.25, 0.25, 0.25, 0.25], 'mississippi': [0.3, 0.2, 0.25, 0.25], 'texas': [0.15, 0.2, 0.4, 0.25], 'virginia': [0.2, 0.25, 0.15, 0.4]} explanation='The recommended strategy involves a combination of strict and moderate traffic control measures across the neighboring states over the 4-week period. By initially reducing traffic, gradually adjusting control, and then managing the flow effectively, the aim is to minimize the risk of disease spread while balancing essential travel needs.'
+2025-11-13 14:27:00,756 - new mexico - INFO - Region Agent new mexico - Iteration 5 / 9: Starting policy decision process.
+2025-11-13 14:27:00,757 - new mexico - INFO - Region user prompt: Epidemic and mobility information are as follows:
+
+SEIRD parameters:
+- beta = 0.1786540919187466
+- alpha = 0.1000046802933765
+- gamma = 0.010026179875213327
+- mu = 0.0006286830820870684
+
+- delta = 0.1007309319859009
+
+Current population composition:
+- S = 1916039
+- E = 13586
+- I = 7188
+- Q = 13981
+- R = 9893
+- D = 621
+
+Neighboring regions:
+1. arizona
+   - Avg past 28-day population composition: S=7216640, E=1701, I=532, Q=59860, R=9184, D=2671
+   - Avg past 28-day inflow: arizona=12252649, mississippi=2456, new mexico=38224, texas=47038, virginia=6625
+
+2. mississippi
+   - Avg past 28-day population composition: S=2924872, E=4757, I=272, Q=6871, R=31903, D=1493
+   - Avg past 28-day inflow: arizona=2143, mississippi=6359778, new mexico=1506, texas=35761, virginia=4507
+
+3. texas
+   - Avg past 28-day population composition: S=28862645, E=5984, I=1945, Q=77895, R=153793, D=5227
+   - Avg past 28-day inflow: arizona=45532, mississippi=56117, new mexico=121513, texas=55656315, virginia=28937
+
+4. virginia
+   - Avg past 28-day population composition: S=8479587, E=1030, I=271, Q=47127, R=5213, D=1892
+   - Avg past 28-day inflow: arizona=6001, mississippi=4711, new mexico=2137, texas=22264, virginia=15138906
+
+   - Ground truth next 28--day inbound by origin (total & daily fractions); fractions sum to 1 per origin when total>0):
+From arizona: total=720776; daily_fraction=[Day1:0.0304, Day2:0.0325, Day3:0.0303, Day4:0.0318, Day5:0.0320, Day6:0.0388, Day7:0.0376, Day8:0.0320, Day9:0.0302, Day10:0.0286, Day11:0.0307, Day12:0.0305, Day13:0.0372, Day14:0.0401, Day15:0.0356, Day16:0.0320, Day17:0.0331, Day18:0.0331, Day19:0.0396, Day20:0.0485, Day21:0.0495, Day22:0.0418, Day23:0.0344, Day24:0.0353, Day25:0.0344, Day26:0.0371, Day27:0.0400, Day28:0.0430]
+From mississippi: total=37753; daily_fraction=[Day1:0.0400, Day2:0.0314, Day3:0.0367, Day4:0.0414, Day5:0.0372, Day6:0.0301, Day7:0.0389, Day8:0.0408, Day9:0.0322, Day10:0.0299, Day11:0.0300, Day12:0.0450, Day13:0.0487, Day14:0.0314, Day15:0.0368, Day16:0.0306, Day17:0.0279, Day18:0.0275, Day19:0.0268, Day20:0.0339, Day21:0.0367, Day22:0.0318, Day23:0.0375, Day24:0.0354, Day25:0.0425, Day26:0.0384, Day27:0.0385, Day28:0.0422]
+From texas: total=4016529; daily_fraction=[Day1:0.0330, Day2:0.0315, Day3:0.0313, Day4:0.0312, Day5:0.0317, Day6:0.0375, Day7:0.0425, Day8:0.0362, Day9:0.0313, Day10:0.0299, Day11:0.0317, Day12:0.0317, Day13:0.0394, Day14:0.0437, Day15:0.0338, Day16:0.0316, Day17:0.0317, Day18:0.0336, Day19:0.0368, Day20:0.0402, Day21:0.0466, Day22:0.0363, Day23:0.0330, Day24:0.0338, Day25:0.0336, Day26:0.0346, Day27:0.0412, Day28:0.0505]
+From virginia: total=34632; daily_fraction=[Day1:0.0402, Day2:0.0253, Day3:0.0329, Day4:0.0310, Day5:0.0278, Day6:0.0316, Day7:0.0271, Day8:0.0322, Day9:0.0386, Day10:0.0308, Day11:0.0290, Day12:0.0276, Day13:0.0303, Day14:0.0283, Day15:0.0277, Day16:0.0373, Day17:0.0354, Day18:0.0294, Day19:0.0439, Day20:0.0439, Day21:0.0458, Day22:0.0465, Day23:0.0395, Day24:0.0412, Day25:0.0364, Day26:0.0425, Day27:0.0467, Day28:0.0510]
+
+Please output the recommended traffic control policy in the required JSON format.
+2025-11-13 14:27:05,113 - new mexico - INFO - Raw agent output:
+{
+    "arizona": {
+        "fractions": [0.25, 0.20, 0.25, 0.30],
+        "notes": "In Week 1, stricter control (25%) to reduce initial spread. Gradual relaxation in Weeks 2 and 3 (20% and 25%) to balance mobility and containment. Week 4 increased control (30%) to prevent resurgence."
+    },
+    "mississippi": {
+        "fractions": [0.20, 0.30, 0.25, 0.25],
+        "notes": "Week 1 moderate control (20%) to limit immediate impact. Increased control in Week 2 (30%) to suppress any potential spread. Balanced control in Weeks 3 and 4 (25% each) for sustained containment."
+    },
+    "texas": {
+        "fractions": [0.20, 0.25, 0.30, 0.25],
+        "notes": "Initial moderate control in Week 1 (20%) to curb rapid spread. Gradual relaxation in Weeks 2 and 3 (25% and 30%) to allow essential travel. Increased control in Week 4 (25%) to maintain control measures."
+    },
+    "virginia": {
+        "fractions": [0.30, 0.20, 0.20, 0.30],
+        "notes": "Stricter control in Week 1 (30%) to prevent immediate impact. Week 2 sees reduced control (20%) for limited mobility. Balanced control in Weeks 3 and 4 (20% each) for sustained prevention."
+    },
+    "global_guidance": "The allocation aims to strategically control inbound traffic from neighboring states over 4 weeks. It balances initial containment with gradual relaxation and ensures sustained prevention to minimize cumulative confirmed and deceased cases in New Mexico."
+}
+2025-11-13 14:27:05,114 - new mexico - INFO - Parsed PolicyResponse: policy={'arizona': [0.25, 0.2, 0.25, 0.3], 'mississippi': [0.2, 0.3, 0.25, 0.25], 'texas': [0.2, 0.25, 0.3, 0.25], 'virginia': [0.3, 0.2, 0.2, 0.3]} explanation='The allocation aims to strategically control inbound traffic from neighboring states over 4 weeks. It balances initial containment with gradual relaxation and ensures sustained prevention to minimize cumulative confirmed and deceased cases in New Mexico.'
+2025-11-13 14:27:25,278 - new mexico - INFO - Region Agent new mexico - Iteration 6 / 9: Starting policy decision process.
+2025-11-13 14:27:25,279 - new mexico - INFO - Region user prompt: Epidemic and mobility information are as follows:
+
+SEIRD parameters:
+- beta = 0.1786540919187466
+- alpha = 0.1000046802933765
+- gamma = 0.01002632117692559
+- mu = 0.0005582459474111481
+
+- delta = 0.1007309319859009
+
+Current population composition:
+- S = 1833353
+- E = 19994
+- I = 10805
+- Q = 20044
+- R = 14487
+- D = 892
+
+Neighboring regions:
+1. arizona
+   - Avg past 28-day population composition: S=7197152, E=2019, I=629, Q=73104, R=13681, D=3708
+   - Avg past 28-day inflow: arizona=12297487, mississippi=2263, new mexico=30302, texas=44537, virginia=5306
+
+2. mississippi
+   - Avg past 28-day population composition: S=2907492, E=5570, I=318, Q=7951, R=44300, D=1969
+   - Avg past 28-day inflow: arizona=1834, mississippi=6420704, new mexico=1130, texas=30497, virginia=3896
+
+3. texas
+   - Avg past 28-day population composition: S=28799943, E=6488, I=2115, Q=84856, R=258986, D=8291
+   - Avg past 28-day inflow: arizona=42891, mississippi=47507, new mexico=90371, texas=56543697, virginia=28114
+
+4. virginia
+   - Avg past 28-day population composition: S=8464068, E=1293, I=342, Q=58644, R=7307, D=2396
+   - Avg past 28-day inflow: arizona=6685, mississippi=5195, new mexico=2564, texas=27623, virginia=14834553
+
+   - Ground truth next 28--day inbound by origin (total & daily fractions); fractions sum to 1 per origin when total>0):
+From arizona: total=790534; daily_fraction=[Day1:0.0336, Day2:0.0321, Day3:0.0285, Day4:0.0291, Day5:0.0315, Day6:0.0465, Day7:0.0548, Day8:0.0489, Day9:0.0416, Day10:0.0279, Day11:0.0276, Day12:0.0288, Day13:0.0354, Day14:0.0386, Day15:0.0327, Day16:0.0288, Day17:0.0263, Day18:0.0279, Day19:0.0290, Day20:0.0423, Day21:0.0464, Day22:0.0406, Day23:0.0346, Day24:0.0297, Day25:0.0297, Day26:0.0331, Day27:0.0450, Day28:0.0494]
+From mississippi: total=31126; daily_fraction=[Day1:0.0480, Day2:0.0434, Day3:0.0343, Day4:0.0430, Day5:0.0507, Day6:0.0514, Day7:0.0431, Day8:0.0438, Day9:0.0275, Day10:0.0402, Day11:0.0263, Day12:0.0338, Day13:0.0375, Day14:0.0292, Day15:0.0355, Day16:0.0285, Day17:0.0330, Day18:0.0310, Day19:0.0206, Day20:0.0291, Day21:0.0342, Day22:0.0406, Day23:0.0287, Day24:0.0242, Day25:0.0280, Day26:0.0357, Day27:0.0363, Day28:0.0423]
+From texas: total=4127493; daily_fraction=[Day1:0.0364, Day2:0.0328, Day3:0.0296, Day4:0.0328, Day5:0.0323, Day6:0.0418, Day7:0.0483, Day8:0.0416, Day9:0.0365, Day10:0.0311, Day11:0.0309, Day12:0.0310, Day13:0.0369, Day14:0.0407, Day15:0.0322, Day16:0.0310, Day17:0.0292, Day18:0.0328, Day19:0.0324, Day20:0.0393, Day21:0.0456, Day22:0.0345, Day23:0.0309, Day24:0.0293, Day25:0.0319, Day26:0.0334, Day27:0.0434, Day28:0.0516]
+From virginia: total=40417; daily_fraction=[Day1:0.0405, Day2:0.0396, Day3:0.0264, Day4:0.0314, Day5:0.0302, Day6:0.0313, Day7:0.0353, Day8:0.0252, Day9:0.0296, Day10:0.0310, Day11:0.0291, Day12:0.0306, Day13:0.0284, Day14:0.0386, Day15:0.0306, Day16:0.0385, Day17:0.0288, Day18:0.0308, Day19:0.0254, Day20:0.0315, Day21:0.0396, Day22:0.0257, Day23:0.0387, Day24:0.0499, Day25:0.0378, Day26:0.0436, Day27:0.0661, Day28:0.0658]
+
+Please output the recommended traffic control policy in the required JSON format.
+2025-11-13 14:27:31,212 - new mexico - INFO - Raw agent output:
+{
+  "arizona": {
+    "fractions": [0.15, 0.20, 0.30, 0.35],
+    "notes": "For Arizona, we start with a moderate control in Week 1 (f1=0.15) to reduce the immediate risk of transmission. In Week 2, we slightly increase the traffic flow (f2=0.20) to allow for more mobility. By Week 3, we implement stricter controls (f3=0.30) to prevent a surge in cases. Finally, in Week 4, we gradually relax the restrictions (f4=0.35) to balance public health and economic needs."
+  },
+  "mississippi": {
+    "fractions": [0.25, 0.25, 0.20, 0.30],
+    "notes": "For Mississippi, we adopt a balanced approach. In Week 1 and Week 2, we maintain moderate controls (f1=0.25, f2=0.25) to keep the disease spread in check. In Week 3, we slightly reduce traffic (f3=0.20) to mitigate any potential spikes. By Week 4, we allow more mobility (f4=0.30) while monitoring the situation closely."
+  },
+  "texas": {
+    "fractions": [0.10, 0.15, 0.40, 0.35],
+    "notes": "In Texas, we prioritize stringent control measures. Week 1 sees the lowest traffic flow (f1=0.10) to immediately curb transmission. By Week 2, we gradually increase traffic (f2=0.15) to balance containment and economic needs. In Week 3, we implement strict controls (f3=0.40) to prevent overwhelming the healthcare system. In Week 4, we ease restrictions (f4=0.35) while remaining vigilant."
+  },
+  "virginia": {
+    "fractions": [0.20, 0.20, 0.25, 0.35],
+    "notes": "For Virginia, we opt for a phased approach. Week 1 and Week 2 have moderate traffic controls (f1=0.20, f2=0.20) to manage the disease spread. In Week 3, we increase restrictions (f3=0.25) to prevent a resurgence. Week 4 sees a relaxation of controls (f4=0.35) while ensuring public health measures are still in place."
+  },
+  "global_guidance": "The allocation aims to minimize the cumulative confirmed and deceased cases in New Mexico by strategically adjusting traffic flows from neighboring states. The approach balances the need for containment with the impact on economic activities, ensuring a gradual and adaptive response to the evolving situation."
+}
+2025-11-13 14:27:31,213 - new mexico - INFO - Parsed PolicyResponse: policy={'arizona': [0.15000000000000002, 0.20000000000000004, 0.30000000000000004, 0.3499999999999998], 'mississippi': [0.25, 0.25, 0.2, 0.3], 'texas': [0.1, 0.15, 0.4, 0.35], 'virginia': [0.2, 0.2, 0.25, 0.35]} explanation='The allocation aims to minimize the cumulative confirmed and deceased cases in New Mexico by strategically adjusting traffic flows from neighboring states. The approach balances the need for containment with the impact on economic activities, ensuring a gradual and adaptive response to the evolving situation.'
+2025-11-13 14:27:47,356 - new mexico - INFO - Region Agent new mexico - Iteration 7 / 9: Starting policy decision process.
+2025-11-13 14:27:47,357 - new mexico - INFO - Region user prompt: Epidemic and mobility information are as follows:
+
+SEIRD parameters:
+- beta = 0.1786540919187466
+- alpha = 0.1000046802933765
+- gamma = 0.010026462478637612
+- mu = 0.0004551429223334525
+
+- delta = 0.1007309319859009
+
+Current population composition:
+- S = 1722964
+- E = 26107
+- I = 14162
+- Q = 26929
+- R = 20545
+- D = 1197
+
+Neighboring regions:
+1. arizona
+   - Avg past 28-day population composition: S=7173145, E=2629, I=830, Q=92472, R=19235, D=4602
+   - Avg past 28-day inflow: arizona=12725200, mississippi=1772, new mexico=30469, texas=41669, virginia=5278
+
+2. mississippi
+   - Avg past 28-day population composition: S=2887029, E=6838, I=392, Q=9756, R=58972, D=2439
+   - Avg past 28-day inflow: arizona=1672, mississippi=6486108, new mexico=1326, texas=27699, virginia=3438
+
+3. texas
+   - Avg past 28-day population composition: S=28727073, E=8416, I=2792, Q=106348, R=382547, D=11553
+   - Avg past 28-day inflow: arizona=44038, mississippi=39792, new mexico=98688, texas=57465617, virginia=23291
+
+4. virginia
+   - Avg past 28-day population composition: S=8444786, E=1566, I=412, Q=72550, R=9912, D=2840
+   - Avg past 28-day inflow: arizona=5613, mississippi=3703, new mexico=1342, texas=19850, virginia=15147038
+
+   - Ground truth next 28--day inbound by origin (total & daily fractions); fractions sum to 1 per origin when total>0):
+From arizona: total=912271; daily_fraction=[Day1:0.0361, Day2:0.0289, Day3:0.0276, Day4:0.0295, Day5:0.0317, Day6:0.0327, Day7:0.0360, Day8:0.0302, Day9:0.0265, Day10:0.0264, Day11:0.0301, Day12:0.0378, Day13:0.0490, Day14:0.0557, Day15:0.0487, Day16:0.0337, Day17:0.0273, Day18:0.0268, Day19:0.0318, Day20:0.0398, Day21:0.0456, Day22:0.0363, Day23:0.0317, Day24:0.0315, Day25:0.0341, Day26:0.0386, Day27:0.0483, Day28:0.0477]
+From mississippi: total=32845; daily_fraction=[Day1:0.0322, Day2:0.0344, Day3:0.0423, Day4:0.0420, Day5:0.0381, Day6:0.0387, Day7:0.0382, Day8:0.0362, Day9:0.0386, Day10:0.0231, Day11:0.0295, Day12:0.0343, Day13:0.0343, Day14:0.0308, Day15:0.0287, Day16:0.0260, Day17:0.0234, Day18:0.0255, Day19:0.0445, Day20:0.0420, Day21:0.0446, Day22:0.0506, Day23:0.0432, Day24:0.0378, Day25:0.0395, Day26:0.0334, Day27:0.0396, Day28:0.0286]
+From texas: total=4181436; daily_fraction=[Day1:0.0382, Day2:0.0331, Day3:0.0340, Day4:0.0353, Day5:0.0393, Day6:0.0402, Day7:0.0464, Day8:0.0338, Day9:0.0297, Day10:0.0289, Day11:0.0304, Day12:0.0329, Day13:0.0397, Day14:0.0462, Day15:0.0366, Day16:0.0328, Day17:0.0300, Day18:0.0324, Day19:0.0327, Day20:0.0407, Day21:0.0451, Day22:0.0352, Day23:0.0308, Day24:0.0308, Day25:0.0315, Day26:0.0316, Day27:0.0395, Day28:0.0422]
+From virginia: total=52454; daily_fraction=[Day1:0.0564, Day2:0.0471, Day3:0.0397, Day4:0.0381, Day5:0.0413, Day6:0.0360, Day7:0.0368, Day8:0.0277, Day9:0.0324, Day10:0.0305, Day11:0.0297, Day12:0.0346, Day13:0.0343, Day14:0.0381, Day15:0.0319, Day16:0.0293, Day17:0.0289, Day18:0.0323, Day19:0.0397, Day20:0.0378, Day21:0.0402, Day22:0.0359, Day23:0.0379, Day24:0.0287, Day25:0.0330, Day26:0.0307, Day27:0.0356, Day28:0.0354]
+
+Please output the recommended traffic control policy in the required JSON format.
+2025-11-13 14:27:51,882 - new mexico - INFO - Raw agent output:
+{
+  "arizona": {
+      "fractions": [0.2, 0.2, 0.3, 0.3],
+      "notes": "In Week 1, a stricter control (20%) is implemented to reduce initial influx. In Weeks 2 and 3, control is gradually relaxed (20% and 30%) to allow more traffic. In Week 4, the control remains relaxed (30%) to maintain a steady flow."
+    },
+  "mississippi": {
+      "fractions": [0.3, 0.3, 0.2, 0.2],
+      "notes": "In Week 1 and Week 2, moderate control measures (30%) are applied to manage the initial spread. In Weeks 3 and 4, the control is reduced (20%) to facilitate more movement."
+    },
+  "texas": {
+      "fractions": [0.2, 0.25, 0.25, 0.3],
+      "notes": "Stricter control is enforced in Week 1 (20%) to curb the initial influx. Control is then slightly relaxed in Weeks 2 and 3 (25%) to balance mobility and containment. In Week 4, control is further eased (30%) for smoother traffic."
+    },
+  "virginia": {
+      "fractions": [0.25, 0.2, 0.25, 0.3],
+      "notes": "Week 1 starts with moderate control (25%) to manage the initial traffic. Control is then reduced in Week 2 (20%) to allow more movement. In Weeks 3 and 4, control is slightly increased (25% and 30%) to maintain a balance."
+    },
+  "global_guidance": "The allocation aims to stagger the traffic control measures across the neighboring states to prevent sudden spikes in inbound traffic. By gradually adjusting the control ratios, we aim to minimize the cumulative confirmed and deceased cases in New Mexico while allowing some level of mobility between states."
+}
+2025-11-13 14:27:51,883 - new mexico - INFO - Parsed PolicyResponse: policy={'arizona': [0.2, 0.2, 0.3, 0.3], 'mississippi': [0.3, 0.3, 0.2, 0.2], 'texas': [0.2, 0.25, 0.25, 0.3], 'virginia': [0.25, 0.2, 0.25, 0.3]} explanation='The allocation aims to stagger the traffic control measures across the neighboring states to prevent sudden spikes in inbound traffic. By gradually adjusting the control ratios, we aim to minimize the cumulative confirmed and deceased cases in New Mexico while allowing some level of mobility between states.'
+2025-11-13 14:28:06,039 - new mexico - INFO - Region Agent new mexico - Iteration 8 / 9: Starting policy decision process.
+2025-11-13 14:28:06,041 - new mexico - INFO - Region user prompt: Epidemic and mobility information are as follows:
+
+SEIRD parameters:
+- beta = 0.1786540919187466
+- alpha = 0.1000046802933765
+- gamma = 0.010026603780349336
+- mu = 0.00034072062020123036
+
+- delta = 0.1007309319859009
+
+Current population composition:
+- S = 1581205
+- E = 31087
+- I = 16843
+- Q = 33167
+- R = 28667
+- D = 1517
+
+Neighboring regions:
+1. arizona
+   - Avg past 28-day population composition: S=7142642, E=3470, I=1110, Q=118125, R=26316, D=5293
+   - Avg past 28-day inflow: arizona=13133968, mississippi=2124, new mexico=32775, texas=49768, virginia=5318
+
+2. mississippi
+   - Avg past 28-day population composition: S=2860452, E=9214, I=528, Q=13343, R=78194, D=2912
+   - Avg past 28-day inflow: arizona=2167, mississippi=6658408, new mexico=1350, texas=31691, virginia=3517
+
+3. texas
+   - Avg past 28-day population composition: S=28635494, E=10618, I=3530, Q=134163, R=539022, D=14894
+   - Avg past 28-day inflow: arizona=48852, mississippi=35367, new mexico=93738, texas=59422789, virginia=24046
+
+4. virginia
+   - Avg past 28-day population composition: S=8420886, E=1995, I=528, Q=91152, R=13151, D=3201
+   - Avg past 28-day inflow: arizona=5998, mississippi=4407, new mexico=2020, texas=25009, virginia=15394720
+
+   - Ground truth next 28--day inbound by origin (total & daily fractions); fractions sum to 1 per origin when total>0):
+From arizona: total=1153846; daily_fraction=[Day1:0.0325, Day2:0.0238, Day3:0.0238, Day4:0.0253, Day5:0.0306, Day6:0.0358, Day7:0.0372, Day8:0.0336, Day9:0.0317, Day10:0.0312, Day11:0.0350, Day12:0.0365, Day13:0.0432, Day14:0.0466, Day15:0.0424, Day16:0.0380, Day17:0.0293, Day18:0.0328, Day19:0.0361, Day20:0.0403, Day21:0.0449, Day22:0.0412, Day23:0.0349, Day24:0.0304, Day25:0.0324, Day26:0.0361, Day27:0.0444, Day28:0.0498]
+From mississippi: total=34663; daily_fraction=[Day1:0.0319, Day2:0.0317, Day3:0.0271, Day4:0.0271, Day5:0.0350, Day6:0.0262, Day7:0.0372, Day8:0.0373, Day9:0.0413, Day10:0.0294, Day11:0.0233, Day12:0.0293, Day13:0.0319, Day14:0.0347, Day15:0.0376, Day16:0.0419, Day17:0.0304, Day18:0.0356, Day19:0.0325, Day20:0.0302, Day21:0.0385, Day22:0.0269, Day23:0.0323, Day24:0.0458, Day25:0.0537, Day26:0.0452, Day27:0.0525, Day28:0.0533]
+From texas: total=3638795; daily_fraction=[Day1:0.0374, Day2:0.0338, Day3:0.0272, Day4:0.0322, Day5:0.0360, Day6:0.0432, Day7:0.0442, Day8:0.0349, Day9:0.0331, Day10:0.0320, Day11:0.0329, Day12:0.0332, Day13:0.0390, Day14:0.0408, Day15:0.0331, Day16:0.0340, Day17:0.0310, Day18:0.0349, Day19:0.0330, Day20:0.0385, Day21:0.0426, Day22:0.0338, Day23:0.0335, Day24:0.0309, Day25:0.0325, Day26:0.0349, Day27:0.0403, Day28:0.0471]
+From virginia: total=37376; daily_fraction=[Day1:0.0432, Day2:0.0400, Day3:0.0582, Day4:0.0478, Day5:0.0360, Day6:0.0504, Day7:0.0515, Day8:0.0469, Day9:0.0313, Day10:0.0273, Day11:0.0267, Day12:0.0272, Day13:0.0271, Day14:0.0396, Day15:0.0318, Day16:0.0325, Day17:0.0276, Day18:0.0269, Day19:0.0241, Day20:0.0364, Day21:0.0419, Day22:0.0381, Day23:0.0286, Day24:0.0216, Day25:0.0277, Day26:0.0327, Day27:0.0356, Day28:0.0414]
+
+Please output the recommended traffic control policy in the required JSON format.
+2025-11-13 14:28:10,562 - new mexico - INFO - Raw agent output:
+{
+  "arizona": {
+      "fractions": [0.25, 0.25, 0.25, 0.25],
+      "notes": "Equal traffic allocation across the 4 weeks to maintain consistency and balance in traffic flow from Arizona."
+    },
+  "mississippi": {
+      "fractions": [0.15, 0.25, 0.20, 0.40],
+      "notes": "Implement stricter traffic control in Week 1 to reduce initial influx, followed by a gradual increase in traffic in subsequent weeks to manage the flow effectively."
+    },
+  "texas": {
+      "fractions": [0.20, 0.20, 0.30, 0.30],
+      "notes": "Moderate traffic control measures evenly distributed over the 4 weeks to regulate the traffic inflow from Texas."
+    },
+  "virginia": {
+      "fractions": [0.30, 0.30, 0.20, 0.20],
+      "notes": "Initiate stronger traffic control in the first two weeks to limit the initial spread, followed by a more relaxed approach in the latter weeks while still maintaining control."
+    },
+  "global_guidance": "The allocation aims to stagger the traffic control measures across neighboring states to prevent overwhelming the healthcare system in New Mexico and reduce the cumulative confirmed and deceased cases."
+}
+2025-11-13 14:28:10,563 - new mexico - INFO - Parsed PolicyResponse: policy={'arizona': [0.25, 0.25, 0.25, 0.25], 'mississippi': [0.15, 0.25, 0.2, 0.4], 'texas': [0.2, 0.2, 0.3, 0.3], 'virginia': [0.3, 0.3, 0.2, 0.2]} explanation='The allocation aims to stagger the traffic control measures across neighboring states to prevent overwhelming the healthcare system in New Mexico and reduce the cumulative confirmed and deceased cases.'
+2025-11-13 14:28:26,722 - new mexico - INFO - Region Agent new mexico - Iteration 9 / 9: Starting policy decision process.
+2025-11-13 14:28:26,724 - new mexico - INFO - Region user prompt: Epidemic and mobility information are as follows:
+
+SEIRD parameters:
+- beta = 0.1786540919187466
+- alpha = 0.1000046802933765
+- gamma = 0.010026745082060709
+- mu = 0.00023419490943287318
+
+- delta = 0.1007309319859009
+
+Current population composition:
+- S = 1387041
+- E = 48449
+- I = 27069
+- Q = 51603
+- R = 40268
+- D = 1845
+
+Neighboring regions:
+1. arizona
+   - Avg past 28-day population composition: S=7104286, E=4239, I=1356, Q=146181, R=35269, D=5753
+   - Avg past 28-day inflow: arizona=13232514, mississippi=2065, new mexico=25908, texas=34448, virginia=4067
+
+2. mississippi
+   - Avg past 28-day population composition: S=2825969, E=11732, I=673, Q=16828, R=103371, D=3371
+   - Avg past 28-day inflow: arizona=1840, mississippi=6617640, new mexico=1149, texas=23742, virginia=3109
+
+3. texas
+   - Avg past 28-day population composition: S=28521252, E=12788, I=4227, Q=166807, R=735960, D=17901
+   - Avg past 28-day inflow: arizona=49808, mississippi=34134, new mexico=68548, texas=59324270, virginia=20775
+
+4. virginia
+   - Avg past 28-day population composition: S=8390709, E=2529, I=670, Q=116170, R=17251, D=3479
+   - Avg past 28-day inflow: arizona=6381, mississippi=3908, new mexico=1794, texas=23290, virginia=15321538
+
+   - Ground truth next 28--day inbound by origin (total & daily fractions); fractions sum to 1 per origin when total>0):
+From arizona: total=1222485; daily_fraction=[Day1:0.0457, Day2:0.0405, Day3:0.0447, Day4:0.0439, Day5:0.0390, Day6:0.0513, Day7:0.0529, Day8:0.0428, Day9:0.0353, Day10:0.0298, Day11:0.0288, Day12:0.0290, Day13:0.0308, Day14:0.0324, Day15:0.0303, Day16:0.0294, Day17:0.0277, Day18:0.0293, Day19:0.0296, Day20:0.0299, Day21:0.0341, Day22:0.0315, Day23:0.0291, Day24:0.0305, Day25:0.0324, Day26:0.0345, Day27:0.0419, Day28:0.0428]
+From mississippi: total=51220; daily_fraction=[Day1:0.0284, Day2:0.0475, Day3:0.0474, Day4:0.0547, Day5:0.0419, Day6:0.0480, Day7:0.0558, Day8:0.0422, Day9:0.0486, Day10:0.0392, Day11:0.0350, Day12:0.0296, Day13:0.0352, Day14:0.0316, Day15:0.0322, Day16:0.0239, Day17:0.0232, Day18:0.0291, Day19:0.0334, Day20:0.0329, Day21:0.0308, Day22:0.0286, Day23:0.0306, Day24:0.0257, Day25:0.0278, Day26:0.0312, Day27:0.0295, Day28:0.0361]
+From texas: total=4041315; daily_fraction=[Day1:0.0341, Day2:0.0373, Day3:0.0389, Day4:0.0391, Day5:0.0278, Day6:0.0435, Day7:0.0432, Day8:0.0352, Day9:0.0341, Day10:0.0320, Day11:0.0328, Day12:0.0310, Day13:0.0374, Day14:0.0410, Day15:0.0322, Day16:0.0306, Day17:0.0301, Day18:0.0316, Day19:0.0333, Day20:0.0374, Day21:0.0456, Day22:0.0332, Day23:0.0314, Day24:0.0309, Day25:0.0321, Day26:0.0339, Day27:0.0415, Day28:0.0490]
+From virginia: total=36690; daily_fraction=[Day1:0.0421, Day2:0.0395, Day3:0.0491, Day4:0.0441, Day5:0.0356, Day6:0.0452, Day7:0.0383, Day8:0.0407, Day9:0.0425, Day10:0.0386, Day11:0.0437, Day12:0.0394, Day13:0.0379, Day14:0.0404, Day15:0.0316, Day16:0.0276, Day17:0.0263, Day18:0.0260, Day19:0.0153, Day20:0.0184, Day21:0.0243, Day22:0.0343, Day23:0.0341, Day24:0.0378, Day25:0.0375, Day26:0.0309, Day27:0.0314, Day28:0.0472]
+
+Please output the recommended traffic control policy in the required JSON format.
+2025-11-13 14:28:30,404 - new mexico - INFO - Raw agent output:
+{
+  "arizona": {
+    "fractions": [0.2, 0.2, 0.3, 0.3],
+    "notes": "In Week 1 and Week 2, a stricter control of inbound traffic is advised to reduce the potential spread of the virus. In Week 3 and Week 4, the control is slightly relaxed to balance the mobility needs while still aiming to minimize the cumulative cases in New Mexico."
+  },
+  "mississippi": {
+    "fractions": [0.2, 0.2, 0.3, 0.3],
+    "notes": "Similar to Arizona, a 20% inbound traffic restriction is applied in Week 1 and Week 2. In Week 3 and Week 4, the restriction is slightly eased to maintain the balance between control and mobility."
+  },
+  "texas": {
+    "fractions": [0.3, 0.3, 0.2, 0.2],
+    "notes": "Texas has a higher traffic volume, hence a 30% restriction in Week 1 and Week 2 to reduce the risk. In Week 3 and Week 4, a 20% restriction is proposed to allow some mobility while still controlling the spread."
+  },
+  "virginia": {
+    "fractions": [0.3, 0.3, 0.2, 0.2],
+    "notes": "Similar to Texas, a 30% inbound traffic restriction is recommended for Week 1 and Week 2 to minimize the potential spread. In Week 3 and Week 4, the restriction is reduced to 20% to balance control and essential travel needs."
+  },
+  "global_guidance": "For all neighboring states, a phased approach is suggested to control inbound traffic. Stricter restrictions in the initial weeks help reduce the risk of transmission, followed by a gradual relaxation to allow essential travel and maintain economic activities. This strategy aims to minimize cumulative confirmed and deceased cases in New Mexico while considering the overall mobility requirements."
+}
+2025-11-13 14:28:30,405 - new mexico - INFO - Parsed PolicyResponse: policy={'arizona': [0.2, 0.2, 0.3, 0.3], 'mississippi': [0.2, 0.2, 0.3, 0.3], 'texas': [0.3, 0.3, 0.2, 0.2], 'virginia': [0.3, 0.3, 0.2, 0.2]} explanation='For all neighboring states, a phased approach is suggested to control inbound traffic. Stricter restrictions in the initial weeks help reduce the risk of transmission, followed by a gradual relaxation to allow essential travel and maintain economic activities. This strategy aims to minimize cumulative confirmed and deceased cases in New Mexico while considering the overall mobility requirements.'
+2025-11-13 14:28:52,736 - new mexico - INFO - Region Agent new mexico - Iteration 2 / 9: Starting policy decision process.
+2025-11-13 14:28:52,737 - new mexico - INFO - Region user prompt: Epidemic and mobility information are as follows:
+
+SEIRD parameters:
+- beta = 0.1786540919187466
+- alpha = 0.1000046802933765
+- gamma = 0.010025755970075654
+- mu = 0.000538047741964765
+
+- delta = 0.1007309319859009
+
+Current population composition:
+- S = 2074779
+- E = 5545
+- I = 2970
+- Q = 5389
+- R = 1156
+- D = 74
+
+Neighboring regions:
+1. arizona
+   - Avg past 28-day population composition: S=7252157, E=956, I=289, Q=26740, R=1033, D=325
+   - Avg past 28-day inflow: arizona=11581706, mississippi=1587, new mexico=27302, texas=34213, virginia=3730
+
+2. mississippi
+   - Avg past 28-day population composition: S=2964260, E=3037, I=169, Q=4460, R=4063, D=259
+   - Avg past 28-day inflow: arizona=1477, mississippi=5741152, new mexico=1204, texas=25706, virginia=3238
+
+3. texas
+   - Avg past 28-day population composition: S=28977518, E=1279, I=400, Q=18007, R=3688, D=462
+   - Avg past 28-day inflow: arizona=28055, mississippi=31794, new mexico=72592, texas=50468030, virginia=15459
+
+4. virginia
+   - Avg past 28-day population composition: S=8510868, E=817, I=230, Q=24929, R=1002, D=352
+   - Avg past 28-day inflow: arizona=3488, mississippi=2892, new mexico=1565, texas=16348, virginia=13515642
+
+   - Ground truth next 28--day inbound by origin (total & daily fractions); fractions sum to 1 per origin when total>0):
+From arizona: total=805763; daily_fraction=[Day1:0.0240, Day2:0.0263, Day3:0.0272, Day4:0.0279, Day5:0.0293, Day6:0.0311, Day7:0.0334, Day8:0.0302, Day9:0.0298, Day10:0.0291, Day11:0.0311, Day12:0.0360, Day13:0.0471, Day14:0.0464, Day15:0.0450, Day16:0.0411, Day17:0.0356, Day18:0.0319, Day19:0.0385, Day20:0.0483, Day21:0.0502, Day22:0.0413, Day23:0.0355, Day24:0.0324, Day25:0.0313, Day26:0.0344, Day27:0.0426, Day28:0.0430]
+From mississippi: total=61121; daily_fraction=[Day1:0.0309, Day2:0.0352, Day3:0.0388, Day4:0.0381, Day5:0.0400, Day6:0.0391, Day7:0.0288, Day8:0.0320, Day9:0.0322, Day10:0.0298, Day11:0.0348, Day12:0.0412, Day13:0.0402, Day14:0.0309, Day15:0.0338, Day16:0.0363, Day17:0.0343, Day18:0.0369, Day19:0.0409, Day20:0.0479, Day21:0.0422, Day22:0.0300, Day23:0.0292, Day24:0.0343, Day25:0.0350, Day26:0.0368, Day27:0.0368, Day28:0.0338]
+From texas: total=4270124; daily_fraction=[Day1:0.0282, Day2:0.0287, Day3:0.0290, Day4:0.0300, Day5:0.0311, Day6:0.0367, Day7:0.0384, Day8:0.0292, Day9:0.0305, Day10:0.0300, Day11:0.0331, Day12:0.0361, Day13:0.0436, Day14:0.0451, Day15:0.0385, Day16:0.0356, Day17:0.0373, Day18:0.0356, Day19:0.0381, Day20:0.0417, Day21:0.0439, Day22:0.0342, Day23:0.0344, Day24:0.0336, Day25:0.0339, Day26:0.0375, Day27:0.0422, Day28:0.0438]
+From virginia: total=33139; daily_fraction=[Day1:0.0470, Day2:0.0301, Day3:0.0326, Day4:0.0366, Day5:0.0277, Day6:0.0346, Day7:0.0373, Day8:0.0326, Day9:0.0310, Day10:0.0342, Day11:0.0297, Day12:0.0327, Day13:0.0490, Day14:0.0439, Day15:0.0401, Day16:0.0298, Day17:0.0242, Day18:0.0357, Day19:0.0420, Day20:0.0312, Day21:0.0432, Day22:0.0345, Day23:0.0297, Day24:0.0346, Day25:0.0381, Day26:0.0306, Day27:0.0434, Day28:0.0440]
+
+Please output the recommended traffic control policy in the required JSON format.
+2025-11-13 14:28:56,107 - new mexico - INFO - Raw agent output:
+{
+  "arizona": {
+      "fractions": [0.25, 0.25, 0.25, 0.25],
+      "notes": "Equal traffic allocation across all 4 weeks to maintain consistency in traffic flow from Arizona."
+    },
+  "mississippi": {
+      "fractions": [0.25, 0.25, 0.25, 0.25],
+      "notes": "Equal traffic allocation across all 4 weeks to maintain consistency in traffic flow from Mississippi."
+    },
+  "texas": {
+      "fractions": [0.25, 0.25, 0.25, 0.25],
+      "notes": "Equal traffic allocation across all 4 weeks to maintain consistency in traffic flow from Texas."
+    },
+  "virginia": {
+      "fractions": [0.25, 0.25, 0.25, 0.25],
+      "notes": "Equal traffic allocation across all 4 weeks to maintain consistency in traffic flow from Virginia."
+    },
+  "global_guidance": "Equal allocation of traffic flow from all neighboring states over the 4 weeks helps in maintaining a balanced approach to controlling inbound travel, reducing the risk of disease transmission while ensuring some level of mobility."
+}
+2025-11-13 14:28:56,108 - new mexico - INFO - Parsed PolicyResponse: policy={'arizona': [0.25, 0.25, 0.25, 0.25], 'mississippi': [0.25, 0.25, 0.25, 0.25], 'texas': [0.25, 0.25, 0.25, 0.25], 'virginia': [0.25, 0.25, 0.25, 0.25]} explanation='Equal allocation of traffic flow from all neighboring states over the 4 weeks helps in maintaining a balanced approach to controlling inbound travel, reducing the risk of disease transmission while ensuring some level of mobility.'
+2025-11-13 14:29:11,097 - new mexico - INFO - Region Agent new mexico - Iteration 3 / 9: Starting policy decision process.
+2025-11-13 14:29:11,098 - new mexico - INFO - Region user prompt: Epidemic and mobility information are as follows:
+
+SEIRD parameters:
+- beta = 0.1786540919187466
+- alpha = 0.1000046802933765
+- gamma = 0.010025897271788303
+- mu = 0.0006172049360937379
+
+- delta = 0.1007309319859009
+
+Current population composition:
+- S = 2033628
+- E = 10456
+- I = 5599
+- Q = 10320
+- R = 3388
+- D = 204
+
+Neighboring regions:
+1. arizona
+   - Avg past 28-day population composition: S=7243338, E=959, I=302, Q=33267, R=3058, D=888
+   - Avg past 28-day inflow: arizona=12492011, mississippi=2294, new mexico=34343, texas=48312, virginia=4209
+
+2. mississippi
+   - Avg past 28-day population composition: S=2953008, E=3647, I=208, Q=5070, R=11975, D=617
+   - Avg past 28-day inflow: arizona=1792, mississippi=6271773, new mexico=1100, texas=37157, virginia=3868
+
+3. texas
+   - Avg past 28-day population composition: S=28955682, E=2968, I=961, Q=39708, R=18688, D=1139
+   - Avg past 28-day inflow: arizona=40557, mississippi=36214, new mexico=92195, texas=55401941, virginia=19222
+
+4. virginia
+   - Avg past 28-day population composition: S=8502525, E=683, I=179, Q=31290, R=2121, D=834
+   - Avg past 28-day inflow: arizona=5773, mississippi=4065, new mexico=2012, texas=23484, virginia=14387068
+
+   - Ground truth next 28--day inbound by origin (total & daily fractions); fractions sum to 1 per origin when total>0):
+From arizona: total=859014; daily_fraction=[Day1:0.0366, Day2:0.0338, Day3:0.0320, Day4:0.0320, Day5:0.0343, Day6:0.0434, Day7:0.0477, Day8:0.0419, Day9:0.0345, Day10:0.0334, Day11:0.0349, Day12:0.0347, Day13:0.0369, Day14:0.0435, Day15:0.0363, Day16:0.0327, Day17:0.0296, Day18:0.0320, Day19:0.0357, Day20:0.0401, Day21:0.0386, Day22:0.0396, Day23:0.0340, Day24:0.0307, Day25:0.0303, Day26:0.0344, Day27:0.0350, Day28:0.0315]
+From mississippi: total=48192; daily_fraction=[Day1:0.0362, Day2:0.0418, Day3:0.0540, Day4:0.0390, Day5:0.0355, Day6:0.0417, Day7:0.0323, Day8:0.0365, Day9:0.0317, Day10:0.0392, Day11:0.0352, Day12:0.0435, Day13:0.0442, Day14:0.0417, Day15:0.0364, Day16:0.0350, Day17:0.0376, Day18:0.0278, Day19:0.0319, Day20:0.0278, Day21:0.0232, Day22:0.0316, Day23:0.0310, Day24:0.0293, Day25:0.0347, Day26:0.0303, Day27:0.0324, Day28:0.0385]
+From texas: total=4513293; daily_fraction=[Day1:0.0352, Day2:0.0353, Day3:0.0334, Day4:0.0307, Day5:0.0327, Day6:0.0367, Day7:0.0414, Day8:0.0338, Day9:0.0313, Day10:0.0307, Day11:0.0326, Day12:0.0378, Day13:0.0418, Day14:0.0471, Day15:0.0365, Day16:0.0345, Day17:0.0342, Day18:0.0338, Day19:0.0376, Day20:0.0390, Day21:0.0385, Day22:0.0357, Day23:0.0341, Day24:0.0336, Day25:0.0329, Day26:0.0359, Day27:0.0409, Day28:0.0322]
+From virginia: total=42542; daily_fraction=[Day1:0.0317, Day2:0.0363, Day3:0.0413, Day4:0.0334, Day5:0.0305, Day6:0.0345, Day7:0.0346, Day8:0.0225, Day9:0.0247, Day10:0.0263, Day11:0.0319, Day12:0.0392, Day13:0.0347, Day14:0.0308, Day15:0.0250, Day16:0.0280, Day17:0.0314, Day18:0.0475, Day19:0.0517, Day20:0.0416, Day21:0.0429, Day22:0.0408, Day23:0.0488, Day24:0.0440, Day25:0.0337, Day26:0.0303, Day27:0.0350, Day28:0.0468]
+
+Please output the recommended traffic control policy in the required JSON format.
+2025-11-13 14:29:14,361 - new mexico - INFO - Raw agent output:
+{
+    "arizona": {
+        "fractions": [0.25, 0.25, 0.25, 0.25],
+        "notes": "Equal traffic control measures are recommended for each week to ensure a consistent approach in managing inbound traffic from Arizona to New Mexico."
+    },
+    "mississippi": {
+        "fractions": [0.20, 0.25, 0.25, 0.30],
+        "notes": "Initially slightly reduced traffic in Week 1 followed by a gradual increase in subsequent weeks to allow controlled influx from Mississippi to New Mexico."
+    },
+    "texas": {
+        "fractions": [0.20, 0.20, 0.30, 0.30],
+        "notes": "Moderate traffic reduction in Weeks 1 and 2, followed by a more significant reduction in Week 3 and Week 4 to manage traffic from Texas to New Mexico."
+    },
+    "virginia": {
+        "fractions": [0.30, 0.20, 0.25, 0.25],
+        "notes": "Starting with a higher reduction in Week 1, followed by a slight decrease in Week 2 and then maintaining a moderate reduction in Weeks 3 and 4 for traffic from Virginia to New Mexico."
+    },
+    "global_guidance": "To minimize the cumulative confirmed and deceased cases in New Mexico, a staggered approach to traffic control is suggested with varying levels of reduction over the four weeks for each neighboring state based on their average daily inflow and population composition."
+}
+2025-11-13 14:29:14,362 - new mexico - INFO - Parsed PolicyResponse: policy={'arizona': [0.25, 0.25, 0.25, 0.25], 'mississippi': [0.2, 0.25, 0.25, 0.3], 'texas': [0.2, 0.2, 0.3, 0.3], 'virginia': [0.3, 0.2, 0.25, 0.25]} explanation='To minimize the cumulative confirmed and deceased cases in New Mexico, a staggered approach to traffic control is suggested with varying levels of reduction over the four weeks for each neighboring state based on their average daily inflow and population composition.'
+2025-11-13 14:29:32,987 - new mexico - INFO - Region Agent new mexico - Iteration 4 / 9: Starting policy decision process.
+2025-11-13 14:29:32,987 - new mexico - INFO - Region user prompt: Epidemic and mobility information are as follows:
+
+SEIRD parameters:
+- beta = 0.1786540919187466
+- alpha = 0.1000046802933765
+- gamma = 0.010026038573500878
+- mu = 0.0006500793601189748
+
+- delta = 0.1007309319859009
+
+Current population composition:
+- S = 1974580
+- E = 11587
+- I = 6104
+- Q = 12026
+- R = 6643
+- D = 411
+
+Neighboring regions:
+1. arizona
+   - Avg past 28-day population composition: S=7231845, E=1402, I=451, Q=45385, R=5689, D=1684
+   - Avg past 28-day inflow: arizona=12709425, mississippi=2466, new mexico=40787, texas=54963, virginia=6160
+
+2. mississippi
+   - Avg past 28-day population composition: S=2939973, E=4164, I=238, Q=5948, R=21181, D=1035
+   - Avg past 28-day inflow: arizona=2608, mississippi=6484167, new mexico=1339, texas=36652, virginia=4247
+
+3. texas
+   - Avg past 28-day population composition: S=28914617, E=5264, I=1735, Q=65876, R=71224, D=2790
+   - Avg past 28-day inflow: arizona=50778, mississippi=57747, new mexico=130532, texas=57700986, virginia=25817
+
+4. virginia
+   - Avg past 28-day population composition: S=8492174, E=856, I=226, Q=38875, R=3512, D=1366
+   - Avg past 28-day inflow: arizona=5845, mississippi=4865, new mexico=2070, texas=27069, virginia=15329464
+
+   - Ground truth next 28--day inbound by origin (total & daily fractions); fractions sum to 1 per origin when total>0):
+From arizona: total=712306; daily_fraction=[Day1:0.0380, Day2:0.0371, Day3:0.0328, Day4:0.0351, Day5:0.0372, Day6:0.0413, Day7:0.0381, Day8:0.0335, Day9:0.0340, Day10:0.0320, Day11:0.0336, Day12:0.0346, Day13:0.0377, Day14:0.0333, Day15:0.0334, Day16:0.0326, Day17:0.0321, Day18:0.0371, Day19:0.0391, Day20:0.0413, Day21:0.0372, Day22:0.0337, Day23:0.0343, Day24:0.0331, Day25:0.0345, Day26:0.0351, Day27:0.0420, Day28:0.0361]
+From mississippi: total=40356; daily_fraction=[Day1:0.0343, Day2:0.0333, Day3:0.0385, Day4:0.0401, Day5:0.0449, Day6:0.0429, Day7:0.0332, Day8:0.0462, Day9:0.0393, Day10:0.0377, Day11:0.0316, Day12:0.0332, Day13:0.0494, Day14:0.0404, Day15:0.0251, Day16:0.0248, Day17:0.0295, Day18:0.0305, Day19:0.0314, Day20:0.0287, Day21:0.0313, Day22:0.0320, Day23:0.0360, Day24:0.0344, Day25:0.0332, Day26:0.0397, Day27:0.0430, Day28:0.0351]
+From texas: total=4031301; daily_fraction=[Day1:0.0347, Day2:0.0364, Day3:0.0349, Day4:0.0354, Day5:0.0359, Day6:0.0401, Day7:0.0388, Day8:0.0313, Day9:0.0325, Day10:0.0317, Day11:0.0324, Day12:0.0352, Day13:0.0413, Day14:0.0414, Day15:0.0336, Day16:0.0337, Day17:0.0325, Day18:0.0332, Day19:0.0351, Day20:0.0406, Day21:0.0414, Day22:0.0344, Day23:0.0335, Day24:0.0319, Day25:0.0333, Day26:0.0350, Day27:0.0397, Day28:0.0402]
+From virginia: total=50880; daily_fraction=[Day1:0.0384, Day2:0.0368, Day3:0.0257, Day4:0.0234, Day5:0.0286, Day6:0.0353, Day7:0.0218, Day8:0.0339, Day9:0.0359, Day10:0.0326, Day11:0.0350, Day12:0.0496, Day13:0.0360, Day14:0.0370, Day15:0.0352, Day16:0.0403, Day17:0.0399, Day18:0.0420, Day19:0.0355, Day20:0.0438, Day21:0.0398, Day22:0.0374, Day23:0.0320, Day24:0.0341, Day25:0.0401, Day26:0.0351, Day27:0.0386, Day28:0.0359]
+
+Please output the recommended traffic control policy in the required JSON format.
+2025-11-13 14:29:37,452 - new mexico - INFO - Raw agent output:
+{
+  "arizona": {
+      "fractions": [0.25, 0.25, 0.25, 0.25],
+      "notes": "Equal traffic control measures are recommended for all 4 weeks to evenly distribute the impact on inbound traffic from Arizona."
+    },
+  "mississippi": {
+      "fractions": [0.1, 0.1, 0.5, 0.3],
+      "notes": "Strict control in Week 1 and Week 2 to limit the initial spread, followed by a significant increase in traffic in Week 3 to balance the economic impact, and a slightly reduced control in Week 4."
+    },
+  "texas": {
+      "fractions": [0.05, 0.05, 0.85, 0.05],
+      "notes": "Minimal control in Week 1 and Week 2 to maintain essential travel, followed by a high level of control in Week 3 to prevent a sudden surge, and a return to minimal control in Week 4."
+    },
+  "virginia": {
+      "fractions": [0.2, 0.2, 0.4, 0.2],
+      "notes": "Consistent moderate control across all 4 weeks to ensure a balance between restricting the spread and allowing necessary travel from Virginia."
+    },
+  "global_guidance": "The allocation aims to stagger the traffic control measures, starting with stricter regulations in the early weeks to contain the spread, followed by adjustments to balance economic and health considerations. The distribution ensures a strategic approach to minimize the cumulative confirmed and deceased cases in New Mexico."
+}
+2025-11-13 14:29:37,452 - new mexico - INFO - Parsed PolicyResponse: policy={'arizona': [0.25, 0.25, 0.25, 0.25], 'mississippi': [0.1, 0.1, 0.5, 0.3], 'texas': [0.05, 0.05, 0.85, 0.05], 'virginia': [0.2, 0.2, 0.4, 0.2]} explanation='The allocation aims to stagger the traffic control measures, starting with stricter regulations in the early weeks to contain the spread, followed by adjustments to balance economic and health considerations. The distribution ensures a strategic approach to minimize the cumulative confirmed and deceased cases in New Mexico.'
+2025-11-13 14:29:53,712 - new mexico - INFO - Region Agent new mexico - Iteration 5 / 9: Starting policy decision process.
+2025-11-13 14:29:53,713 - new mexico - INFO - Region user prompt: Epidemic and mobility information are as follows:
+
+SEIRD parameters:
+- beta = 0.1786540919187466
+- alpha = 0.1000046802933765
+- gamma = 0.010026179875213327
+- mu = 0.0006286830820870684
+
+- delta = 0.1007309319859009
+
+Current population composition:
+- S = 1914794
+- E = 12905
+- I = 6951
+- Q = 12446
+- R = 9928
+- D = 621
+
+Neighboring regions:
+1. arizona
+   - Avg past 28-day population composition: S=7216441, E=1660, I=518, Q=59178, R=9231, D=2687
+   - Avg past 28-day inflow: arizona=12252649, mississippi=2489, new mexico=35717, texas=48068, virginia=6103
+
+2. mississippi
+   - Avg past 28-day population composition: S=2924677, E=4821, I=275, Q=6956, R=32048, D=1501
+   - Avg past 28-day inflow: arizona=2308, mississippi=6359778, new mexico=1639, texas=35671, virginia=4428
+
+3. texas
+   - Avg past 28-day population composition: S=28858269, E=5699, I=1837, Q=76205, R=160655, D=5429
+   - Avg past 28-day inflow: arizona=46746, mississippi=55317, new mexico=104880, texas=55656315, virginia=29894
+
+4. virginia
+   - Avg past 28-day population composition: S=8479410, E=1043, I=275, Q=47628, R=5232, D=1912
+   - Avg past 28-day inflow: arizona=5802, mississippi=5410, new mexico=2217, texas=22020, virginia=15138906
+
+   - Ground truth next 28--day inbound by origin (total & daily fractions); fractions sum to 1 per origin when total>0):
+From arizona: total=720776; daily_fraction=[Day1:0.0304, Day2:0.0325, Day3:0.0303, Day4:0.0318, Day5:0.0320, Day6:0.0388, Day7:0.0376, Day8:0.0320, Day9:0.0302, Day10:0.0286, Day11:0.0307, Day12:0.0305, Day13:0.0372, Day14:0.0401, Day15:0.0356, Day16:0.0320, Day17:0.0331, Day18:0.0331, Day19:0.0396, Day20:0.0485, Day21:0.0495, Day22:0.0418, Day23:0.0344, Day24:0.0353, Day25:0.0344, Day26:0.0371, Day27:0.0400, Day28:0.0430]
+From mississippi: total=37753; daily_fraction=[Day1:0.0400, Day2:0.0314, Day3:0.0367, Day4:0.0414, Day5:0.0372, Day6:0.0301, Day7:0.0389, Day8:0.0408, Day9:0.0322, Day10:0.0299, Day11:0.0300, Day12:0.0450, Day13:0.0487, Day14:0.0314, Day15:0.0368, Day16:0.0306, Day17:0.0279, Day18:0.0275, Day19:0.0268, Day20:0.0339, Day21:0.0367, Day22:0.0318, Day23:0.0375, Day24:0.0354, Day25:0.0425, Day26:0.0384, Day27:0.0385, Day28:0.0422]
+From texas: total=4016529; daily_fraction=[Day1:0.0330, Day2:0.0315, Day3:0.0313, Day4:0.0312, Day5:0.0317, Day6:0.0375, Day7:0.0425, Day8:0.0362, Day9:0.0313, Day10:0.0299, Day11:0.0317, Day12:0.0317, Day13:0.0394, Day14:0.0437, Day15:0.0338, Day16:0.0316, Day17:0.0317, Day18:0.0336, Day19:0.0368, Day20:0.0402, Day21:0.0466, Day22:0.0363, Day23:0.0330, Day24:0.0338, Day25:0.0336, Day26:0.0346, Day27:0.0412, Day28:0.0505]
+From virginia: total=34632; daily_fraction=[Day1:0.0402, Day2:0.0253, Day3:0.0329, Day4:0.0310, Day5:0.0278, Day6:0.0316, Day7:0.0271, Day8:0.0322, Day9:0.0386, Day10:0.0308, Day11:0.0290, Day12:0.0276, Day13:0.0303, Day14:0.0283, Day15:0.0277, Day16:0.0373, Day17:0.0354, Day18:0.0294, Day19:0.0439, Day20:0.0439, Day21:0.0458, Day22:0.0465, Day23:0.0395, Day24:0.0412, Day25:0.0364, Day26:0.0425, Day27:0.0467, Day28:0.0510]
+
+Please output the recommended traffic control policy in the required JSON format.
+2025-11-13 14:29:57,977 - new mexico - INFO - Raw agent output:
+{
+  "arizona": {
+      "fractions": [0.2, 0.1, 0.4, 0.3],
+      "notes": "For Arizona, a higher fraction in Week 3 and Week 4 is chosen to reduce inbound traffic and potential disease spread to New Mexico during the peak of infections. The lower fractions in Week 1 and Week 2 aim to provide some control while allowing for essential travel."
+    },
+  "mississippi": {
+      "fractions": [0.3, 0.2, 0.2, 0.3],
+      "notes": "In Mississippi, a balanced approach is taken with slightly higher control in Week 1 and Week 4 to manage the initial and later phases of potential outbreaks. Weeks 2 and 3 have lower control to allow for some mobility."
+    },
+  "texas": {
+      "fractions": [0.1, 0.2, 0.3, 0.4],
+      "notes": "Texas sees a gradual increase in control from Week 1 to Week 4 to address the potential rise in cases and limit inbound traffic accordingly. Week 4 has the highest control to mitigate the risk of disease transmission."
+    },
+  "virginia": {
+      "fractions": [0.2, 0.3, 0.1, 0.4],
+      "notes": "Virginia's policy focuses on stricter control in Week 2 and Week 4 to coincide with potential spikes in cases. Week 1 and Week 3 have lower control to allow for some essential travel while still monitoring the situation."
+    },
+  "global_guidance": "The allocation aims to strategically reduce inbound traffic from neighboring states over the next 4 weeks to minimize the risk of disease spread into New Mexico. By adjusting the traffic flow based on the expected progression of cases in each state, we aim to control the influx of potentially infected individuals and reduce the burden on the healthcare system."
+}
+2025-11-13 14:29:57,978 - new mexico - INFO - Parsed PolicyResponse: policy={'arizona': [0.2, 0.1, 0.4, 0.3], 'mississippi': [0.3, 0.2, 0.2, 0.3], 'texas': [0.1, 0.2, 0.3, 0.4], 'virginia': [0.2, 0.3, 0.1, 0.4]} explanation='The allocation aims to strategically reduce inbound traffic from neighboring states over the next 4 weeks to minimize the risk of disease spread into New Mexico. By adjusting the traffic flow based on the expected progression of cases in each state, we aim to control the influx of potentially infected individuals and reduce the burden on the healthcare system.'
+2025-11-13 14:30:17,977 - new mexico - INFO - Region Agent new mexico - Iteration 6 / 9: Starting policy decision process.
+2025-11-13 14:30:17,978 - new mexico - INFO - Region user prompt: Epidemic and mobility information are as follows:
+
+SEIRD parameters:
+- beta = 0.1786540919187466
+- alpha = 0.1000046802933765
+- gamma = 0.01002632117692559
+- mu = 0.0005582459474111481
+
+- delta = 0.1007309319859009
+
+Current population composition:
+- S = 1839105
+- E = 18649
+- I = 9945
+- Q = 19345
+- R = 14072
+- D = 867
+
+Neighboring regions:
+1. arizona
+   - Avg past 28-day population composition: S=7197036, E=1988, I=616, Q=73306, R=13710, D=3715
+   - Avg past 28-day inflow: arizona=12297487, mississippi=2289, new mexico=30548, texas=44159, virginia=5223
+
+2. mississippi
+   - Avg past 28-day population composition: S=2907253, E=5555, I=317, Q=7920, R=44473, D=1977
+   - Avg past 28-day inflow: arizona=1861, mississippi=6420704, new mexico=1189, texas=27862, virginia=3868
+
+3. texas
+   - Avg past 28-day population composition: S=28794302, E=6812, I=2221, Q=89283, R=267832, D=8550
+   - Avg past 28-day inflow: arizona=44352, mississippi=47266, new mexico=107442, texas=56543697, virginia=25927
+
+4. virginia
+   - Avg past 28-day population composition: S=8463768, E=1293, I=342, Q=58941, R=7342, D=2421
+   - Avg past 28-day inflow: arizona=6685, mississippi=4908, new mexico=2497, texas=26879, virginia=14834553
+
+   - Ground truth next 28--day inbound by origin (total & daily fractions); fractions sum to 1 per origin when total>0):
+From arizona: total=790534; daily_fraction=[Day1:0.0336, Day2:0.0321, Day3:0.0285, Day4:0.0291, Day5:0.0315, Day6:0.0465, Day7:0.0548, Day8:0.0489, Day9:0.0416, Day10:0.0279, Day11:0.0276, Day12:0.0288, Day13:0.0354, Day14:0.0386, Day15:0.0327, Day16:0.0288, Day17:0.0263, Day18:0.0279, Day19:0.0290, Day20:0.0423, Day21:0.0464, Day22:0.0406, Day23:0.0346, Day24:0.0297, Day25:0.0297, Day26:0.0331, Day27:0.0450, Day28:0.0494]
+From mississippi: total=31126; daily_fraction=[Day1:0.0480, Day2:0.0434, Day3:0.0343, Day4:0.0430, Day5:0.0507, Day6:0.0514, Day7:0.0431, Day8:0.0438, Day9:0.0275, Day10:0.0402, Day11:0.0263, Day12:0.0338, Day13:0.0375, Day14:0.0292, Day15:0.0355, Day16:0.0285, Day17:0.0330, Day18:0.0310, Day19:0.0206, Day20:0.0291, Day21:0.0342, Day22:0.0406, Day23:0.0287, Day24:0.0242, Day25:0.0280, Day26:0.0357, Day27:0.0363, Day28:0.0423]
+From texas: total=4127493; daily_fraction=[Day1:0.0364, Day2:0.0328, Day3:0.0296, Day4:0.0328, Day5:0.0323, Day6:0.0418, Day7:0.0483, Day8:0.0416, Day9:0.0365, Day10:0.0311, Day11:0.0309, Day12:0.0310, Day13:0.0369, Day14:0.0407, Day15:0.0322, Day16:0.0310, Day17:0.0292, Day18:0.0328, Day19:0.0324, Day20:0.0393, Day21:0.0456, Day22:0.0345, Day23:0.0309, Day24:0.0293, Day25:0.0319, Day26:0.0334, Day27:0.0434, Day28:0.0516]
+From virginia: total=40417; daily_fraction=[Day1:0.0405, Day2:0.0396, Day3:0.0264, Day4:0.0314, Day5:0.0302, Day6:0.0313, Day7:0.0353, Day8:0.0252, Day9:0.0296, Day10:0.0310, Day11:0.0291, Day12:0.0306, Day13:0.0284, Day14:0.0386, Day15:0.0306, Day16:0.0385, Day17:0.0288, Day18:0.0308, Day19:0.0254, Day20:0.0315, Day21:0.0396, Day22:0.0257, Day23:0.0387, Day24:0.0499, Day25:0.0378, Day26:0.0436, Day27:0.0661, Day28:0.0658]
+
+Please output the recommended traffic control policy in the required JSON format.
+2025-11-13 14:30:21,926 - new mexico - INFO - Raw agent output:
+{
+    "arizona": {
+        "fractions": [0.15, 0.25, 0.30, 0.30],
+        "notes": "In the first week, a stricter control approach is implemented to reduce the influx of potentially infected individuals. Subsequently, a gradual relaxation is applied to balance mobility and disease spread."
+    },
+    "mississippi": {
+        "fractions": [0.20, 0.20, 0.35, 0.25],
+        "notes": "Initially, a moderate control measure is taken to manage the inflow. This is followed by a significant reduction in the second week to limit exposure, then gradually increased to balance economic concerns."
+    },
+    "texas": {
+        "fractions": [0.10, 0.15, 0.25, 0.50],
+        "notes": "A low control ratio in the first week helps in controlling the initial spread, followed by a gradual increase in control to manage the influx effectively and mitigate the risk of transmission."
+    },
+    "virginia": {
+        "fractions": [0.25, 0.20, 0.20, 0.35],
+        "notes": "Starting with a higher control ratio ensures a cautious approach to reduce the risk of introducing new cases. The subsequent weeks see a balanced approach to maintain safety while allowing essential travel."
+    },
+    "global_guidance": "To minimize the cumulative confirmed and deceased cases, a strategic combination of strict and moderate traffic control policies is recommended across neighboring states. Initial stringent measures can help contain the spread, followed by a gradual relaxation to ensure economic activities are sustained while managing the health risks effectively."
+}
+2025-11-13 14:30:21,927 - new mexico - INFO - Parsed PolicyResponse: policy={'arizona': [0.15, 0.25, 0.3, 0.3], 'mississippi': [0.2, 0.2, 0.35, 0.25], 'texas': [0.1, 0.15, 0.25, 0.5], 'virginia': [0.25, 0.2, 0.2, 0.35]} explanation='To minimize the cumulative confirmed and deceased cases, a strategic combination of strict and moderate traffic control policies is recommended across neighboring states. Initial stringent measures can help contain the spread, followed by a gradual relaxation to ensure economic activities are sustained while managing the health risks effectively.'
+2025-11-13 14:30:38,356 - new mexico - INFO - Region Agent new mexico - Iteration 7 / 9: Starting policy decision process.
+2025-11-13 14:30:38,357 - new mexico - INFO - Region user prompt: Epidemic and mobility information are as follows:
+
+SEIRD parameters:
+- beta = 0.1786540919187466
+- alpha = 0.1000046802933765
+- gamma = 0.010026462478637612
+- mu = 0.0004551429223334525
+
+- delta = 0.1007309319859009
+
+Current population composition:
+- S = 1734443
+- E = 24855
+- I = 13447
+- Q = 25835
+- R = 19836
+- D = 1158
+
+Neighboring regions:
+1. arizona
+   - Avg past 28-day population composition: S=7173072, E=2602, I=819, Q=92050, R=19255, D=4609
+   - Avg past 28-day inflow: arizona=12725200, mississippi=1772, new mexico=31607, texas=46050, virginia=5216
+
+2. mississippi
+   - Avg past 28-day population composition: S=2886605, E=6939, I=397, Q=9934, R=59282, D=2453
+   - Avg past 28-day inflow: arizona=1672, mississippi=6486108, new mexico=1330, texas=30471, virginia=3481
+
+3. texas
+   - Avg past 28-day population composition: S=28721817, E=7931, I=2622, Q=101109, R=391067, D=11815
+   - Avg past 28-day inflow: arizona=44038, mississippi=39383, new mexico=95397, texas=57465617, virginia=24804
+
+4. virginia
+   - Avg past 28-day population composition: S=8444335, E=1595, I=421, Q=73434, R=9969, D=2868
+   - Avg past 28-day inflow: arizona=5613, mississippi=3634, new mexico=1927, texas=22367, virginia=15147038
+
+   - Ground truth next 28--day inbound by origin (total & daily fractions); fractions sum to 1 per origin when total>0):
+From arizona: total=912271; daily_fraction=[Day1:0.0361, Day2:0.0289, Day3:0.0276, Day4:0.0295, Day5:0.0317, Day6:0.0327, Day7:0.0360, Day8:0.0302, Day9:0.0265, Day10:0.0264, Day11:0.0301, Day12:0.0378, Day13:0.0490, Day14:0.0557, Day15:0.0487, Day16:0.0337, Day17:0.0273, Day18:0.0268, Day19:0.0318, Day20:0.0398, Day21:0.0456, Day22:0.0363, Day23:0.0317, Day24:0.0315, Day25:0.0341, Day26:0.0386, Day27:0.0483, Day28:0.0477]
+From mississippi: total=32845; daily_fraction=[Day1:0.0322, Day2:0.0344, Day3:0.0423, Day4:0.0420, Day5:0.0381, Day6:0.0387, Day7:0.0382, Day8:0.0362, Day9:0.0386, Day10:0.0231, Day11:0.0295, Day12:0.0343, Day13:0.0343, Day14:0.0308, Day15:0.0287, Day16:0.0260, Day17:0.0234, Day18:0.0255, Day19:0.0445, Day20:0.0420, Day21:0.0446, Day22:0.0506, Day23:0.0432, Day24:0.0378, Day25:0.0395, Day26:0.0334, Day27:0.0396, Day28:0.0286]
+From texas: total=4181436; daily_fraction=[Day1:0.0382, Day2:0.0331, Day3:0.0340, Day4:0.0353, Day5:0.0393, Day6:0.0402, Day7:0.0464, Day8:0.0338, Day9:0.0297, Day10:0.0289, Day11:0.0304, Day12:0.0329, Day13:0.0397, Day14:0.0462, Day15:0.0366, Day16:0.0328, Day17:0.0300, Day18:0.0324, Day19:0.0327, Day20:0.0407, Day21:0.0451, Day22:0.0352, Day23:0.0308, Day24:0.0308, Day25:0.0315, Day26:0.0316, Day27:0.0395, Day28:0.0422]
+From virginia: total=52454; daily_fraction=[Day1:0.0564, Day2:0.0471, Day3:0.0397, Day4:0.0381, Day5:0.0413, Day6:0.0360, Day7:0.0368, Day8:0.0277, Day9:0.0324, Day10:0.0305, Day11:0.0297, Day12:0.0346, Day13:0.0343, Day14:0.0381, Day15:0.0319, Day16:0.0293, Day17:0.0289, Day18:0.0323, Day19:0.0397, Day20:0.0378, Day21:0.0402, Day22:0.0359, Day23:0.0379, Day24:0.0287, Day25:0.0330, Day26:0.0307, Day27:0.0356, Day28:0.0354]
+
+Please output the recommended traffic control policy in the required JSON format.
+2025-11-13 14:30:41,549 - new mexico - INFO - Raw agent output:
+{
+  "arizona": {
+    "fractions": [0.25, 0.25, 0.25, 0.25],
+    "notes": "Equal traffic allocation across all 4 weeks to maintain consistency in control measures."
+  },
+  "mississippi": {
+    "fractions": [0.35, 0.25, 0.20, 0.20],
+    "notes": "Higher control in Week 1 to reduce initial spread, followed by gradually relaxing restrictions."
+  },
+  "texas": {
+    "fractions": [0.20, 0.20, 0.30, 0.30],
+    "notes": "Start with lower control in Week 1 and 2, then increase control in Week 3 and 4 to prevent potential spikes."
+  },
+  "virginia": {
+    "fractions": [0.30, 0.30, 0.20, 0.20],
+    "notes": "Moderate control in all weeks to maintain a steady flow of traffic while keeping the spread in check."
+  },
+  "global_guidance": "The allocation aims to balance traffic flow while minimizing the risk of disease spread by implementing varying levels of control over the 4-week period."
+}
+2025-11-13 14:30:41,549 - new mexico - INFO - Parsed PolicyResponse: policy={'arizona': [0.25, 0.25, 0.25, 0.25], 'mississippi': [0.35, 0.25, 0.2, 0.2], 'texas': [0.2, 0.2, 0.3, 0.3], 'virginia': [0.3, 0.3, 0.2, 0.2]} explanation='The allocation aims to balance traffic flow while minimizing the risk of disease spread by implementing varying levels of control over the 4-week period.'
+2025-11-13 14:31:01,911 - new mexico - INFO - Region Agent new mexico - Iteration 8 / 9: Starting policy decision process.
+2025-11-13 14:31:01,912 - new mexico - INFO - Region user prompt: Epidemic and mobility information are as follows:
+
+SEIRD parameters:
+- beta = 0.1786540919187466
+- alpha = 0.1000046802933765
+- gamma = 0.010026603780349336
+- mu = 0.00034072062020123036
+
+- delta = 0.1007309319859009
+
+Current population composition:
+- S = 1596584
+- E = 30489
+- I = 16526
+- Q = 32264
+- R = 27757
+- D = 1473
+
+Neighboring regions:
+1. arizona
+   - Avg past 28-day population composition: S=7143048, E=3376, I=1078, Q=115330, R=26228, D=5291
+   - Avg past 28-day inflow: arizona=13133968, mississippi=2124, new mexico=32775, texas=47693, virginia=5103
+
+2. mississippi
+   - Avg past 28-day population composition: S=2860102, E=9080, I=521, Q=13093, R=78444, D=2929
+   - Avg past 28-day inflow: arizona=2071, mississippi=6658408, new mexico=1372, texas=30625, virginia=3662
+
+3. texas
+   - Avg past 28-day population composition: S=28633715, E=10404, I=3457, Q=131231, R=541544, D=15020
+   - Avg past 28-day inflow: arizona=48852, mississippi=36890, new mexico=94967, texas=59422789, virginia=23898
+
+4. virginia
+   - Avg past 28-day population composition: S=8420260, E=1979, I=522, Q=91162, R=13231, D=3232
+   - Avg past 28-day inflow: arizona=5846, mississippi=4492, new mexico=1604, texas=22899, virginia=15394720
+
+   - Ground truth next 28--day inbound by origin (total & daily fractions); fractions sum to 1 per origin when total>0):
+From arizona: total=1153846; daily_fraction=[Day1:0.0325, Day2:0.0238, Day3:0.0238, Day4:0.0253, Day5:0.0306, Day6:0.0358, Day7:0.0372, Day8:0.0336, Day9:0.0317, Day10:0.0312, Day11:0.0350, Day12:0.0365, Day13:0.0432, Day14:0.0466, Day15:0.0424, Day16:0.0380, Day17:0.0293, Day18:0.0328, Day19:0.0361, Day20:0.0403, Day21:0.0449, Day22:0.0412, Day23:0.0349, Day24:0.0304, Day25:0.0324, Day26:0.0361, Day27:0.0444, Day28:0.0498]
+From mississippi: total=34663; daily_fraction=[Day1:0.0319, Day2:0.0317, Day3:0.0271, Day4:0.0271, Day5:0.0350, Day6:0.0262, Day7:0.0372, Day8:0.0373, Day9:0.0413, Day10:0.0294, Day11:0.0233, Day12:0.0293, Day13:0.0319, Day14:0.0347, Day15:0.0376, Day16:0.0419, Day17:0.0304, Day18:0.0356, Day19:0.0325, Day20:0.0302, Day21:0.0385, Day22:0.0269, Day23:0.0323, Day24:0.0458, Day25:0.0537, Day26:0.0452, Day27:0.0525, Day28:0.0533]
+From texas: total=3638795; daily_fraction=[Day1:0.0374, Day2:0.0338, Day3:0.0272, Day4:0.0322, Day5:0.0360, Day6:0.0432, Day7:0.0442, Day8:0.0349, Day9:0.0331, Day10:0.0320, Day11:0.0329, Day12:0.0332, Day13:0.0390, Day14:0.0408, Day15:0.0331, Day16:0.0340, Day17:0.0310, Day18:0.0349, Day19:0.0330, Day20:0.0385, Day21:0.0426, Day22:0.0338, Day23:0.0335, Day24:0.0309, Day25:0.0325, Day26:0.0349, Day27:0.0403, Day28:0.0471]
+From virginia: total=37376; daily_fraction=[Day1:0.0432, Day2:0.0400, Day3:0.0582, Day4:0.0478, Day5:0.0360, Day6:0.0504, Day7:0.0515, Day8:0.0469, Day9:0.0313, Day10:0.0273, Day11:0.0267, Day12:0.0272, Day13:0.0271, Day14:0.0396, Day15:0.0318, Day16:0.0325, Day17:0.0276, Day18:0.0269, Day19:0.0241, Day20:0.0364, Day21:0.0419, Day22:0.0381, Day23:0.0286, Day24:0.0216, Day25:0.0277, Day26:0.0327, Day27:0.0356, Day28:0.0414]
+
+Please output the recommended traffic control policy in the required JSON format.
+2025-11-13 14:31:06,640 - new mexico - INFO - Raw agent output:
+{
+    "arizona": {
+        "fractions": [0.3, 0.25, 0.2, 0.25],
+        "notes": "In Week 1, a moderate reduction in inbound traffic is applied to control potential spread. Week 2 sees a slightly stricter control to further minimize interactions. Week 3 maintains control levels to prevent a resurgence. Week 4 eases restrictions slightly but still monitors traffic."
+    },
+    "mississippi": {
+        "fractions": [0.3, 0.3, 0.2, 0.2],
+        "notes": "Evenly distributed reduction over the 4 weeks to maintain a consistent level of control. This approach aims to steadily decrease potential transmission opportunities throughout the month."
+    },
+    "texas": {
+        "fractions": [0.35, 0.3, 0.2, 0.15],
+        "notes": "Strong reduction in Week 1 to limit immediate spread. Control remains stringent in Week 2. In Week 3, a gradual easing is initiated. By Week 4, restrictions are loosened but still monitored."
+    },
+    "virginia": {
+        "fractions": [0.4, 0.35, 0.15, 0.1],
+        "notes": "Week 1 starts with a high reduction to contain potential risks. Week 2 maintains a significant control level. In Week 3, restrictions are slightly reduced. Week 4 sees a further relaxation while ensuring monitoring and safety measures."
+    },
+    "global_guidance": "The allocation aims to minimize transmission risk by applying stronger controls in the initial weeks when the impact is most significant. The gradual easing over the month balances economic needs with public health safety."
+}
+2025-11-13 14:31:06,641 - new mexico - INFO - Parsed PolicyResponse: policy={'arizona': [0.3, 0.25, 0.2, 0.25], 'mississippi': [0.3, 0.3, 0.2, 0.2], 'texas': [0.35000000000000003, 0.30000000000000004, 0.20000000000000004, 0.1499999999999998], 'virginia': [0.4, 0.35, 0.15, 0.1]} explanation='The allocation aims to minimize transmission risk by applying stronger controls in the initial weeks when the impact is most significant. The gradual easing over the month balances economic needs with public health safety.'
+2025-11-13 14:31:27,853 - new mexico - INFO - Region Agent new mexico - Iteration 9 / 9: Starting policy decision process.
+2025-11-13 14:31:27,855 - new mexico - INFO - Region user prompt: Epidemic and mobility information are as follows:
+
+SEIRD parameters:
+- beta = 0.1786540919187466
+- alpha = 0.1000046802933765
+- gamma = 0.010026745082060709
+- mu = 0.00023419490943287318
+
+- delta = 0.1007309319859009
+
+Current population composition:
+- S = 1397582
+- E = 49673
+- I = 27954
+- Q = 51806
+- R = 39763
+- D = 1805
+
+Neighboring regions:
+1. arizona
+   - Avg past 28-day population composition: S=7104500, E=4468, I=1433, Q=151691, R=35219, D=5751
+   - Avg past 28-day inflow: arizona=13232514, mississippi=1943, new mexico=29593, texas=41450, virginia=3954
+
+2. mississippi
+   - Avg past 28-day population composition: S=2825510, E=11914, I=683, Q=17258, R=103723, D=3395
+   - Avg past 28-day inflow: arizona=1910, mississippi=6617640, new mexico=1042, texas=28907, virginia=3087
+
+3. texas
+   - Avg past 28-day population composition: S=28519904, E=13198, I=4373, Q=170245, R=737546, D=18000
+   - Avg past 28-day inflow: arizona=48091, mississippi=35411, new mexico=73222, texas=59324270, virginia=19192
+
+4. virginia
+   - Avg past 28-day population composition: S=8390052, E=2538, I=672, Q=116576, R=17336, D=3509
+   - Avg past 28-day inflow: arizona=6537, mississippi=3784, new mexico=1757, texas=24701, virginia=15321538
+
+   - Ground truth next 28--day inbound by origin (total & daily fractions); fractions sum to 1 per origin when total>0):
+From arizona: total=1222485; daily_fraction=[Day1:0.0457, Day2:0.0405, Day3:0.0447, Day4:0.0439, Day5:0.0390, Day6:0.0513, Day7:0.0529, Day8:0.0428, Day9:0.0353, Day10:0.0298, Day11:0.0288, Day12:0.0290, Day13:0.0308, Day14:0.0324, Day15:0.0303, Day16:0.0294, Day17:0.0277, Day18:0.0293, Day19:0.0296, Day20:0.0299, Day21:0.0341, Day22:0.0315, Day23:0.0291, Day24:0.0305, Day25:0.0324, Day26:0.0345, Day27:0.0419, Day28:0.0428]
+From mississippi: total=51220; daily_fraction=[Day1:0.0284, Day2:0.0475, Day3:0.0474, Day4:0.0547, Day5:0.0419, Day6:0.0480, Day7:0.0558, Day8:0.0422, Day9:0.0486, Day10:0.0392, Day11:0.0350, Day12:0.0296, Day13:0.0352, Day14:0.0316, Day15:0.0322, Day16:0.0239, Day17:0.0232, Day18:0.0291, Day19:0.0334, Day20:0.0329, Day21:0.0308, Day22:0.0286, Day23:0.0306, Day24:0.0257, Day25:0.0278, Day26:0.0312, Day27:0.0295, Day28:0.0361]
+From texas: total=4041315; daily_fraction=[Day1:0.0341, Day2:0.0373, Day3:0.0389, Day4:0.0391, Day5:0.0278, Day6:0.0435, Day7:0.0432, Day8:0.0352, Day9:0.0341, Day10:0.0320, Day11:0.0328, Day12:0.0310, Day13:0.0374, Day14:0.0410, Day15:0.0322, Day16:0.0306, Day17:0.0301, Day18:0.0316, Day19:0.0333, Day20:0.0374, Day21:0.0456, Day22:0.0332, Day23:0.0314, Day24:0.0309, Day25:0.0321, Day26:0.0339, Day27:0.0415, Day28:0.0490]
+From virginia: total=36690; daily_fraction=[Day1:0.0421, Day2:0.0395, Day3:0.0491, Day4:0.0441, Day5:0.0356, Day6:0.0452, Day7:0.0383, Day8:0.0407, Day9:0.0425, Day10:0.0386, Day11:0.0437, Day12:0.0394, Day13:0.0379, Day14:0.0404, Day15:0.0316, Day16:0.0276, Day17:0.0263, Day18:0.0260, Day19:0.0153, Day20:0.0184, Day21:0.0243, Day22:0.0343, Day23:0.0341, Day24:0.0378, Day25:0.0375, Day26:0.0309, Day27:0.0314, Day28:0.0472]
+
+Please output the recommended traffic control policy in the required JSON format.
+2025-11-13 14:31:33,426 - new mexico - INFO - Raw agent output:
+{
+    "arizona": {
+        "fractions": [0.2, 0.3, 0.3, 0.2],
+        "notes": "In the first week, a stricter control of inbound traffic from Arizona is recommended to reduce potential exposure. The second and third weeks maintain a moderate control level to continue monitoring the situation. In the fourth week, a slightly relaxed control is proposed to allow for more mobility while still considering the risk."
+    },
+    "mississippi": {
+        "fractions": [0.25, 0.25, 0.2, 0.3],
+        "notes": "A balanced approach is suggested for Mississippi. Initially, a moderate control is implemented to manage the influx of individuals. The second week maintains a similar level of control. In the third week, a slight reduction in control is planned. By the fourth week, a more relaxed control strategy is proposed."
+    },
+    "texas": {
+        "fractions": [0.15, 0.2, 0.4, 0.25],
+        "notes": "Texas should experience tighter controls in the first and second weeks to mitigate the potential spread of the virus. The third week sees a significant increase in control to closely monitor the situation. By the fourth week, a relaxation of control is recommended to balance mobility and disease prevention."
+    },
+    "virginia": {
+        "fractions": [0.3, 0.2, 0.1, 0.4],
+        "notes": "Virginia should start with a more stringent control in the first week to limit exposure. The second week maintains a moderate level of control. In the third week, a reduction in control is suggested. By the fourth week, a significant relaxation of control is proposed to facilitate more mobility while ensuring safety measures are still in place."
+    },
+    "global_guidance": "The allocation of traffic control policies aims to strategically manage inbound traffic from neighboring states to New Mexico over the next four weeks. By adjusting the control levels based on the current epidemiological situation and mobility patterns, the goal is to minimize the cumulative confirmed and deceased cases in New Mexico while balancing the need for economic and social activities." 
+}
+2025-11-13 14:31:33,428 - new mexico - INFO - Parsed PolicyResponse: policy={'arizona': [0.2, 0.3, 0.3, 0.2], 'mississippi': [0.25, 0.25, 0.2, 0.3], 'texas': [0.15, 0.2, 0.4, 0.25], 'virginia': [0.3, 0.2, 0.1, 0.4]} explanation='The allocation of traffic control policies aims to strategically manage inbound traffic from neighboring states to New Mexico over the next four weeks. By adjusting the control levels based on the current epidemiological situation and mobility patterns, the goal is to minimize the cumulative confirmed and deceased cases in New Mexico while balancing the need for economic and social activities.'
