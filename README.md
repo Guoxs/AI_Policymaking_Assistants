@@ -24,7 +24,7 @@ This repository implements a coordinated pandemic control framework where LLMs s
 
 ## Repository Structure
 
-### Core modules (`od_agent/`)
+### Core modules (`agents/`)
 - `configs.py` — Basic runtime configuration and experiment settings  
 - `epidemic_model.py` — SEIR-based epidemiological simulator  
 - `region_agent.py` — Local policymaking agent (one per administrative unit)  
