@@ -10,6 +10,14 @@ This repository implements a coordinated pandemic control framework where LLMs s
 
 ---
 
+## Install
+```bash
+git clone https://github.com/Guoxs/AI_Policymaking_Assistants
+
+conda env create -f environment.yml
+```
+--- 
+
 ## Main Results
 
 ### Five-state evaluation
